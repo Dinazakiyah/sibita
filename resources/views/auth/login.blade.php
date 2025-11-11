@@ -172,9 +172,12 @@
                                     </button>
                                 </form>
 
-                                <div class="text-center mt-3">
+                                <div class="text-center mt-4 pt-3 border-top">
                                     <small class="text-muted">
-                                        Belum punya akun? Hubungi Admin Prodi
+                                        Belum punya akun?
+                                        <a href="{{ route('register') }}" class="text-decoration-none" style="color: var(--unej-red); font-weight: 600;">
+                                            Daftar di sini
+                                        </a>
                                     </small>
                                 </div>
                             </div>
