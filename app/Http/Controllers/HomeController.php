@@ -23,6 +23,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = auth()->user();
+        $statusMahasiswa = $user->isMahasiswa() ? $user->statusMahasiswa : null;
+
+        return view('home', [
+            'user' => $user,
+            'statusMahasiswa' => $statusMahasiswa
+        ]);
     }
 }
