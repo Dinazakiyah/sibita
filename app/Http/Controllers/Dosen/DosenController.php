@@ -54,7 +54,16 @@ class DosenController extends Controller
      */
     public function showMahasiswa(User $mahasiswa): View
     {
-        $this->authorize('view-mahasiswa-bimbingan', $mahasiswa);
+        // Check if user is dosen pembimbing of this mahasiswa
+        if (auth()->user()->isDosen()) {
+            $isBimbingan = auth()->user()->mahasiswaBimbingan()
+                ->where('users.id', $mahasiswa->id)
+                ->exists();
+
+            if (!$isBimbingan) {
+                abort(403, 'Anda tidak memiliki akses ke mahasiswa ini');
+            }
+        }
 
         $bimbingan = $mahasiswa->bimbinganAsMahasiswa()
             ->with(['dosen', 'submissionFiles.comments'])
