@@ -42,7 +42,7 @@ class DosenController extends Controller
     public function mahasiswa(): View
     {
         $dosen = auth()->user();
-        $mahasiswa = $dosen->mahasiswaBimbinbing()
+        $mahasiswa = $dosen->mahasiswaBimbingan()
             ->with('statusMahasiswa', 'bimbinganAsMahasiswa')
             ->paginate(15);
 
@@ -77,7 +77,7 @@ class DosenController extends Controller
      */
     public function showBimbingan(Bimbingan $bimbingan): View
     {
-        $this->authorize('view-bimbingan', $bimbingan);
+        $this->authorize('view', $bimbingan);
 
         $submissions = $bimbingan->submissionFiles()
             ->with(['mahasiswa', 'comments.dosen'])
@@ -92,7 +92,7 @@ class DosenController extends Controller
      */
     public function reviewSubmission(SubmissionFile $submission): View
     {
-        $this->authorize('review-submission', $submission);
+        $this->authorize('review', $submission);
 
         $comments = $submission->comments()
             ->with('dosen')
@@ -108,7 +108,7 @@ class DosenController extends Controller
      */
     public function addComment(Request $request, SubmissionFile $submission): RedirectResponse
     {
-        $this->authorize('review-submission', $submission);
+        $this->authorize('addComment', $submission);
 
         $validated = $request->validate([
             'comment' => 'required|string|max:5000',
@@ -141,7 +141,7 @@ class DosenController extends Controller
      */
     public function approveSubmission(SubmissionFile $submission): RedirectResponse
     {
-        $this->authorize('review-submission', $submission);
+        $this->authorize('approve', $submission);
 
         $submission->update([
             'status' => 'approved',
@@ -166,7 +166,7 @@ class DosenController extends Controller
      */
     public function rejectSubmission(Request $request, SubmissionFile $submission): RedirectResponse
     {
-        $this->authorize('review-submission', $submission);
+        $this->authorize('reject', $submission);
 
         $validated = $request->validate([
             'reason' => 'required|string|max:2000',
@@ -187,7 +187,7 @@ class DosenController extends Controller
      */
     public function updateBimbinganStatus(Request $request, Bimbingan $bimbingan): RedirectResponse
     {
-        $this->authorize('update-bimbingan', $bimbingan);
+        $this->authorize('update', $bimbingan);
 
         $validated = $request->validate([
             'status' => 'required|in:pending,revisi,approved',
