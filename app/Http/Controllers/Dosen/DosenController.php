@@ -10,6 +10,7 @@ use App\Models\Comment;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class DosenController extends Controller
 {
@@ -18,7 +19,8 @@ class DosenController extends Controller
      */
     public function dashboard(): View
     {
-        $dosen = auth()->user();
+    /** @var User $dosen */
+    $dosen = Auth::user();
 
         $stats = [
             'total_mahasiswa' => $dosen->mahasiswaBimbingan()->count(),
@@ -41,7 +43,8 @@ class DosenController extends Controller
      */
     public function mahasiswa(): View
     {
-        $dosen = auth()->user();
+    /** @var User $dosen */
+    $dosen = Auth::user();
         $mahasiswa = $dosen->mahasiswaBimbingan()
             ->with('statusMahasiswa', 'bimbinganAsMahasiswa')
             ->paginate(15);
@@ -55,8 +58,11 @@ class DosenController extends Controller
     public function showMahasiswa(User $mahasiswa): View
     {
         // Check if user is dosen pembimbing of this mahasiswa
-        if (auth()->user()->isDosen()) {
-            $isBimbingan = auth()->user()->mahasiswaBimbingan()
+    /** @var User $current */
+    $current = Auth::user();
+
+        if ($current->isDosen()) {
+            $isBimbingan = $current->mahasiswaBimbingan()
                 ->where('users.id', $mahasiswa->id)
                 ->exists();
 
@@ -119,7 +125,7 @@ class DosenController extends Controller
 
         $comment = Comment::create([
             'submission_id' => $submission->id,
-            'dosen_id' => auth()->id(),
+            'dosen_id' => Auth::id(),
             'comment' => $validated['comment'],
             'status' => $validated['status'],
             'priority' => $validated['priority'],
@@ -129,7 +135,7 @@ class DosenController extends Controller
         // Update submission status
         $submission->update([
             'status' => $validated['status'],
-            'dosen_id' => auth()->id(),
+            'dosen_id' => Auth::id(),
             'reviewed_at' => now(),
         ]);
 
@@ -145,7 +151,7 @@ class DosenController extends Controller
 
         $submission->update([
             'status' => 'approved',
-            'dosen_id' => auth()->id(),
+            'dosen_id' => Auth::id(),
             'approved_at' => now(),
         ]);
 
@@ -174,7 +180,7 @@ class DosenController extends Controller
 
         $submission->update([
             'status' => 'rejected',
-            'dosen_id' => auth()->id(),
+            'dosen_id' => Auth::id(),
             'dosen_notes' => $validated['reason'],
             'reviewed_at' => now(),
         ]);
@@ -203,7 +209,8 @@ class DosenController extends Controller
      */
     public function history(): View
     {
-        $dosen = auth()->user();
+    /** @var User $dosen */
+    $dosen = Auth::user();
 
         $bimbingan = $dosen->bimbinganAsDosen()
             ->with(['mahasiswa', 'submissionFiles'])

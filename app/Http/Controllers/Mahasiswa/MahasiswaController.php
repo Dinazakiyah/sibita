@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Bimbingan;
 use App\Models\SubmissionFile;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class MahasiswaController extends Controller
 {
@@ -18,7 +20,8 @@ class MahasiswaController extends Controller
      */
     public function dashboard(): View
     {
-        $mahasiswa = auth()->user();
+        /** @var User $mahasiswa */
+        $mahasiswa = \Illuminate\Support\Facades\Auth::user();
 
         $stats = [
             'total_bimbingan' => $mahasiswa->bimbinganAsMahasiswa()->count(),
@@ -45,7 +48,8 @@ class MahasiswaController extends Controller
      */
     public function bimbingan(): View
     {
-        $mahasiswa = auth()->user();
+        /** @var User $mahasiswa */
+        $mahasiswa = \Illuminate\Support\Facades\Auth::user();
 
         $bimbingan = $mahasiswa->bimbinganAsMahasiswa()
             ->with(['dosen', 'submissionFiles'])
@@ -63,7 +67,7 @@ class MahasiswaController extends Controller
         $this->authorize('view', $bimbingan);
 
         $submissions = $bimbingan->submissionFiles()
-            ->where('mahasiswa_id', auth()->id())
+            ->where('mahasiswa_id', Auth::id())
             ->with(['comments.dosen', 'dosen'])
             ->latest('created_at')
             ->paginate(10);
@@ -100,7 +104,7 @@ class MahasiswaController extends Controller
 
         $submission = SubmissionFile::create([
             'bimbingan_id' => $bimbingan->id,
-            'mahasiswa_id' => auth()->id(),
+            'mahasiswa_id' => \Illuminate\Support\Facades\Auth::id(),
             'file_name' => $request->file('file')->getClientOriginalName(),
             'file_path' => $filePath,
             'file_type' => $validated['file_type'],
@@ -135,7 +139,8 @@ class MahasiswaController extends Controller
      */
     public function progress(): View
     {
-        $mahasiswa = auth()->user();
+        /** @var User $mahasiswa */
+        $mahasiswa = Auth::user();
 
         $bimbingan = $mahasiswa->bimbinganAsMahasiswa()
             ->with(['submissionFiles', 'dosen'])
@@ -166,7 +171,7 @@ class MahasiswaController extends Controller
 
         // Get all submissions for this bimbingan
         $submissions = $bimbingan->submissionFiles()
-            ->where('mahasiswa_id', auth()->id())
+            ->where('mahasiswa_id', Auth::id())
             ->get();
 
         if ($submissions->isEmpty()) {

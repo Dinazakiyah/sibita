@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -12,7 +14,8 @@ class ProfileController extends Controller
      */
     public function show()
     {
-        $user = auth()->user();
+        /** @var User $user */
+        $user = Auth::user();
         $statusMahasiswa = $user->isMahasiswa() ? $user->statusMahasiswa : null;
 
         return view('profile.show', [
@@ -26,7 +29,8 @@ class ProfileController extends Controller
      */
     public function edit()
     {
-        $user = auth()->user();
+        /** @var User $user */
+        $user = Auth::user();
 
         return view('profile.edit', [
             'user' => $user
@@ -38,7 +42,8 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $user = auth()->user();
+        /** @var User $user */
+        $user = Auth::user();
 
         // Validasi input
         $validated = $request->validate([
@@ -75,7 +80,10 @@ class ProfileController extends Controller
         ]);
 
         // Update password
-        auth()->user()->update([
+        /** @var User $user */
+        $user = Auth::user();
+
+        $user->update([
             'password' => Hash::make($validated['password'])
         ]);
 
