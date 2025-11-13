@@ -9,8 +9,8 @@
         <h2><i class="bi bi-person-circle"></i> Dashboard Mahasiswa</h2>
         <p class="text-muted mb-0">Selamat datang, {{ auth()->user()->name }}</p>
     </div>
-    <a href="{{ route('mahasiswa.bimbingan.create') }}" class="btn btn-unej-primary">
-        <i class="bi bi-upload"></i> Upload Bimbingan Baru
+    <a href="{{ route('mahasiswa.bimbingan.index') }}" class="btn btn-unej-primary">
+        <i class="bi bi-file-earmark-arrow-up"></i> Ajukan Bimbingan
     </a>
 </div>
 
@@ -286,8 +286,8 @@
                             <td colspan="7" class="text-center py-5">
                                 <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
                                 <p class="text-muted mt-3 mb-3">Belum ada riwayat bimbingan</p>
-                                <a href="{{ route('mahasiswa.bimbingan.create') }}" class="btn btn-unej-primary">
-                                    <i class="bi bi-upload"></i> Upload Bimbingan Pertama
+                                <a href="{{ route('mahasiswa.bimbingan.index') }}" class="btn btn-unej-primary">
+                                    <i class="bi bi-upload"></i> Ajukan Bimbingan Pertama
                                 </a>
                             </td>
                         </tr>
