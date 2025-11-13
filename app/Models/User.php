@@ -81,6 +81,30 @@ class User extends Authenticatable
     }
 
     /**
+     * Relasi: Submission files yang diupload mahasiswa
+     */
+    public function submissionFiles()
+    {
+        return $this->hasMany(SubmissionFile::class, 'mahasiswa_id');
+    }
+
+    /**
+     * Relasi: Comments yang dibuat dosen
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'dosen_id');
+    }
+
+    /**
+     * Relasi: Submission yang direview dosen
+     */
+    public function reviewedSubmissions()
+    {
+        return $this->hasMany(SubmissionFile::class, 'dosen_id');
+    }
+
+    /**
      * Helper method: Cek apakah user adalah admin
      */
     public function isAdmin()

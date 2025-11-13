@@ -6,14 +6,38 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\StatusMahasiswa;
+use App\Models\SchedulePeriod;
+use App\Models\Bimbingan;
+use App\Models\SubmissionFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 /**
  * Controller untuk Admin mengelola data
  */
 class AdminController extends Controller
 {
+    /**
+     * Show admin dashboard
+     */
+    public function dashboard(): View
+    {
+        $stats = [
+            'total_mahasiswa' => User::where('role', 'mahasiswa')->count(),
+            'total_dosen' => User::where('role', 'dosen')->count(),
+            'total_bimbingan' => Bimbingan::count(),
+            'active_period' => SchedulePeriod::where('is_active', true)->first(),
+        ];
+
+        $recentBimbingan = Bimbingan::with(['mahasiswa', 'dosen'])
+            ->latest('created_at')
+            ->limit(10)
+            ->get();
+
+        return view('admin.dashboard', compact('stats', 'recentBimbingan'));
+    }
+
     /**
      * Menampilkan daftar mahasiswa
      */
@@ -159,5 +183,71 @@ class AdminController extends Controller
             'layakSidang',
             'dosenStats'
         ));
+    }
+
+    /**
+     * Show schedule periods
+     */
+    public function periods(): View
+    {
+        $periods = SchedulePeriod::orderBy('start_date', 'desc')->paginate(15);
+        return view('admin.periods.index', compact('periods'));
+    }
+
+    /**
+     * Show create period form
+     */
+    public function createPeriod()
+    {
+        return view('admin.periods.create');
+    }
+
+    /**
+     * Store new period
+     */
+    public function storePeriod()
+    {
+        $validated = request()->validate([
+            'period_name' => 'required|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'registration_deadline' => 'required|date|before:end_date',
+            'seminar_start_date' => 'nullable|date|after:start_date',
+            'seminar_end_date' => 'nullable|date|after:seminar_start_date',
+            'description' => 'nullable|string',
+        ]);
+
+        SchedulePeriod::create($validated);
+
+        return redirect()->route('admin.periods')->with('success', 'Periode baru berhasil dibuat');
+    }
+
+    /**
+     * Show reports
+     */
+    public function reports(): View
+    {
+        $period = SchedulePeriod::where('is_active', true)->first();
+
+        if (!$period) {
+            $period = SchedulePeriod::latest('created_at')->first();
+        }
+
+        $bimbinganStats = [
+            'total' => Bimbingan::count(),
+            'pending' => Bimbingan::where('status', 'pending')->count(),
+            'revisi' => Bimbingan::where('status', 'revisi')->count(),
+            'approved' => Bimbingan::where('status', 'approved')->count(),
+        ];
+
+        $submissionStats = [
+            'total' => SubmissionFile::count(),
+            'submitted' => SubmissionFile::where('status', 'submitted')->count(),
+            'reviewed' => SubmissionFile::where('status', 'reviewed')->count(),
+            'approved' => SubmissionFile::where('status', 'approved')->count(),
+            'rejected' => SubmissionFile::where('status', 'rejected')->count(),
+        ];
+
+        return view('admin.reports', compact('period', 'bimbinganStats', 'submissionStats'));
     }
 }

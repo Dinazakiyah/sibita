@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Comment extends Model
+{
+    protected $fillable = [
+        'submission_id',
+        'dosen_id',
+        'comment',
+        'status',
+        'priority',
+        'is_pinned',
+    ];
+
+    protected $casts = [
+        'is_pinned' => 'boolean',
+    ];
+
+    /**
+     * Get the submission this comment belongs to
+     */
+    public function submission(): BelongsTo
+    {
+        return $this->belongsTo(SubmissionFile::class, 'submission_id');
+    }
+
+    /**
+     * Get the dosen who made this comment
+     */
+    public function dosen(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'dosen_id');
+    }
+
+    /**
+     * Get status badge color
+     */
+    public function getStatusColor(): string
+    {
+        return match($this->status) {
+            'approved' => 'success',
+            'revision_needed' => 'warning',
+            'pending' => 'secondary',
+            default => 'info',
+        };
+    }
+
+    /**
+     * Get priority badge
+     */
+    public function getPriorityBadge(): string
+    {
+        return match($this->priority) {
+            1 => 'Medium',
+            2 => 'Urgent',
+            default => 'Normal',
+        };
+    }
+}
