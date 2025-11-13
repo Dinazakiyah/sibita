@@ -37,6 +37,8 @@ Route::post('/logout', [AuthController::class, 'logout'])
 // Dashboard (Authenticated)
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Quick Menu
+    Route::get('/menu', [\App\Http\Controllers\MenuController::class, 'index'])->name('menu');
 
     // Profile Routes
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
