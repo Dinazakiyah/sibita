@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -13,9 +14,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
-/**
- * Controller untuk Admin mengelola data
- */
 class AdminController extends Controller
 {
     /**
@@ -35,7 +33,7 @@ class AdminController extends Controller
             ->limit(10)
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recentBimbingan'));
+        return view('Admin.dashboard', compact('stats', 'recentBimbingan'));
     }
 
     /**
@@ -48,7 +46,7 @@ class AdminController extends Controller
                         ->latest()
                         ->paginate(20);
 
-        return view('admin.mahasiswa.index', compact('mahasiswa'));
+        return view('Admin.Mahasiswa.index', compact('mahasiswa'));
     }
 
     /**
@@ -57,7 +55,7 @@ class AdminController extends Controller
     public function createMahasiswa()
     {
         $dosen = User::where('role', 'dosen')->get();
-        return view('admin.mahasiswa.create', compact('dosen'));
+        return view('Admin.Mahasiswa.create', compact('dosen'));
     }
 
     /**
@@ -121,7 +119,7 @@ class AdminController extends Controller
                     ->latest()
                     ->paginate(20);
 
-        return view('admin.dosen.index', compact('dosen'));
+        return view('Admin.dosen.index', compact('dosen'));
     }
 
     /**
@@ -129,7 +127,7 @@ class AdminController extends Controller
      */
     public function createDosen()
     {
-        return view('admin.dosen.create');
+        return view('Admin.dosen.create');
     }
 
     /**
@@ -185,7 +183,7 @@ class AdminController extends Controller
                          ])
                          ->get();
 
-        return view('admin.laporan', compact(
+        return view('Admin.laporan', compact(
             'totalMahasiswa',
             'totalDosen',
             'layakSempro',
@@ -195,7 +193,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Show schedule periods
+     * Show schedule periods (ini itu fungsinya apa?)
      */
     public function periods(): View
     {

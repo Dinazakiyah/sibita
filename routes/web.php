@@ -10,6 +10,7 @@ use App\Http\Controllers\Dosen\DosenBimbinganController;
 use App\Http\Controllers\Dosen\DosenController;
 use App\Http\Controllers\Admin\AdminController;
 
+
 // Redirect root ke login
 Route::get('/', function () {
     return redirect()->route('login');

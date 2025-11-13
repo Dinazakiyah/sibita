@@ -6,7 +6,7 @@
 <div class="card">
     <div class="card-header">Upload File</div>
     <div class="card-body">
-        <form action="{{ route('mahasiswa.uploads.store', $bimbingan->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('mahasiswa.uploads.store', $Bimbingan->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label class="form-label">File</label>
