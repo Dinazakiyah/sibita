@@ -32,7 +32,7 @@ class MahasiswaBimbinganController extends Controller
         // Ambil dosen pembimbing
         $dosenPembimbing = $mahasiswa->dosenPembimbing;
 
-        return view('mahasiswa.bimbingan.create', compact(
+        return view('Mahasiswa.uploads.create', compact(
             'faseAktif',
             'dosenPembimbing',
             'status'
@@ -93,7 +93,7 @@ class MahasiswaBimbinganController extends Controller
                              ->where('mahasiswa_id', Auth::id())
                              ->findOrFail($id);
 
-        return view('mahasiswa.bimbingan.show', compact('bimbingan'));
+        return view('Mahasiswa.Bimbingan.show', compact('bimbingan'));
     }
 
     /**
@@ -129,6 +129,6 @@ class MahasiswaBimbinganController extends Controller
 
         $status = StatusMahasiswa::where('mahasiswa_id', $mahasiswa->id)->first();
 
-        return view('mahasiswa.bimbingan.export', compact('bimbingan', 'mahasiswa', 'status'));
+        return view('Mahasiswa.Bimbingan.riwayat bimbingan', compact('bimbingan', 'mahasiswa', 'status'));
     }
 }

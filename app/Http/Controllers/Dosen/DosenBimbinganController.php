@@ -48,7 +48,7 @@ class DosenBimbinganController extends Controller
                              ->latest()
                              ->get();
 
-        return view('dosen.mahasiswa.show', compact('mahasiswa', 'bimbingan'));
+        return view('dosen.mahasiswa.dosen lihat detail mahasiswa', compact('mahasiswa', 'bimbingan'));
     }
 
     /**
@@ -62,7 +62,7 @@ class DosenBimbinganController extends Controller
                              ->with('mahasiswa')
                              ->findOrFail($id);
 
-        return view('dosen.bimbingan.review', compact('bimbingan'));
+        return view('dosen.Bimbingan.dosen review bimbingan', compact('Bimbingan'));
     }
 
     /**
