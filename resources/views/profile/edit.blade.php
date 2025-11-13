@@ -173,19 +173,59 @@
 </div>
 
 <style>
+    :root {
+        --unej-red: #DC143C;
+        --unej-gold: #FFD700;
+        --unej-blue: #003DA5;
+        --unej-dark: #1a1a1a;
+    }
+
     .bg-gradient-unej {
-        background: linear-gradient(135deg, #DC143C 0%, #FFD700 50%, #228B22 100%) !important;
+        background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-blue) 100%) !important;
     }
 
     .input-group-text {
         background-color: #f8f9fa;
         border: 1.5px solid #e0e0e0;
-        color: #DC143C;
+        color: var(--unej-red);
     }
 
     .form-control:focus {
-        border-color: #DC143C;
+        border-color: var(--unej-red);
         box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.15);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-blue) 100%);
+        border: none;
+        box-shadow: 0 4px 15px rgba(220, 20, 60, 0.25);
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--unej-blue) 0%, var(--unej-red) 100%);
+        box-shadow: 0 6px 20px rgba(220, 20, 60, 0.3);
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        color: white;
+    }
+
+    .card {
+        border: 1px solid #e0e0e0 !important;
+    }
+
+    .alert-danger {
+        background: linear-gradient(135deg, rgba(220, 20, 60, 0.15), rgba(220, 20, 60, 0.05));
+        color: var(--unej-red);
+        border-left: 4px solid var(--unej-red);
+        border: none;
     }
 </style>
 @endsection

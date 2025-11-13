@@ -11,18 +11,33 @@
     <style>
         :root {
             --unej-red: #DC143C;
-            --unej-yellow: #FFD700;
-            --unej-green: #228B22;
+            --unej-gold: #FFD700;
+            --unej-blue: #003DA5;
+            --unej-dark: #1a1a1a;
+            --unej-light: #f5f5f5;
         }
 
         body {
-            background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-yellow) 50%, var(--unej-green) 100%);
+            background: linear-gradient(135deg, var(--unej-blue) 0%, var(--unej-red) 50%, var(--unej-gold) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 20px 0;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background: linear-gradient(135deg, var(--unej-blue) 0%, var(--unej-red) 50%, var(--unej-gold) 100%);
+            }
+            50% {
+                background: linear-gradient(135deg, var(--unej-gold) 0%, var(--unej-blue) 50%, var(--unej-red) 100%);
+            }
+            100% {
+                background: linear-gradient(135deg, var(--unej-blue) 0%, var(--unej-red) 50%, var(--unej-gold) 100%);
+            }
         }
 
         .register-container {
@@ -35,27 +50,59 @@
         }
 
         .register-header {
-            background: linear-gradient(135deg, var(--unej-red), var(--unej-yellow));
+            background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-dark) 100%);
             color: white;
             padding: 40px 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .register-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 215, 0, 0.15);
+            border-radius: 50%;
+        }
+
+        .register-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 150px;
+            height: 150px;
+            background: rgba(0, 61, 165, 0.1);
+            border-radius: 50%;
         }
 
         .register-header i {
             font-size: 3.5rem;
             margin-bottom: 15px;
             display: block;
+            color: var(--unej-gold);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            position: relative;
+            z-index: 2;
         }
 
         .register-header h2 {
             font-weight: 700;
             margin-bottom: 5px;
+            position: relative;
+            z-index: 2;
         }
 
         .register-header p {
             margin: 0;
             font-size: 0.95rem;
             opacity: 0.95;
+            position: relative;
+            z-index: 2;
         }
 
         .register-form {
@@ -69,7 +116,7 @@
             margin-top: 25px;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--unej-yellow);
+            border-bottom: 2px solid var(--unej-gold);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -111,7 +158,7 @@
         }
 
         .btn-register {
-            background: linear-gradient(135deg, var(--unej-red), var(--unej-green));
+            background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-blue) 100%);
             color: white;
             border: none;
             padding: 12px 35px;
@@ -121,11 +168,12 @@
             font-size: 1rem;
             width: 100%;
             margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(220, 20, 60, 0.25);
         }
 
         .btn-register:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(220, 20, 60, 0.3);
+            box-shadow: 0 8px 25px rgba(220, 20, 60, 0.35);
             color: white;
         }
 
@@ -167,19 +215,66 @@
         .alert {
             border-radius: 8px;
             border: none;
+            border-left: 4px solid;
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.05));
+            color: #00c853;
+            border-left-color: #00c853;
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.15), rgba(220, 20, 60, 0.05));
+            color: var(--unej-red);
+            border-left-color: var(--unej-red);
         }
 
         .info-box {
-            background: linear-gradient(135deg, var(--unej-green), var(--unej-yellow));
+            background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-blue) 100%);
             color: white;
             padding: 25px;
             border-radius: 10px;
             margin-top: 25px;
+            position: relative;
+            overflow: hidden;
+            border-left: 4px solid var(--unej-gold);
+        }
+
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
         }
 
         .info-box i {
             margin-right: 10px;
             font-size: 1.2rem;
+            color: var(--unej-gold);
+            position: relative;
+            z-index: 2;
+        }
+
+        .info-box p {
+            position: relative;
+            z-index: 2;
         }
 
         .back-to-login {
@@ -197,7 +292,7 @@
         }
 
         .back-to-login a:hover {
-            color: var(--unej-green);
+            color: var(--unej-blue);
             text-decoration: underline;
         }
 

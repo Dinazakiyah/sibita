@@ -45,7 +45,7 @@
                     <div class="col-md-6 mb-3">
                         <div class="card card-stats border-0 shadow-sm">
                             <div class="card-body d-flex align-items-center">
-                                <div class="stats-icon bg-primary-light rounded-3 me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #DC143C, #FFD700);">
+                                <div class="stats-icon bg-primary-light rounded-3 me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--unej-red), var(--unej-blue));">
                                     <i class="bi bi-file-earmark-text text-white fs-5"></i>
                                 </div>
                                 <div>
@@ -59,7 +59,7 @@
                     <div class="col-md-6 mb-3">
                         <div class="card card-stats border-0 shadow-sm">
                             <div class="card-body d-flex align-items-center">
-                                <div class="stats-icon bg-success-light rounded-3 me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #228B22, #32CD32);">
+                                <div class="stats-icon bg-success-light rounded-3 me-3" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--unej-blue), var(--unej-gold));">
                                     <i class="bi bi-check-circle text-white fs-5"></i>
                                 </div>
                                 <div>
@@ -157,7 +157,7 @@
                             @foreach(auth()->user()->dosenPembimbing as $dosen)
                                 <div class="mb-3 pb-3 border-bottom">
                                     <div class="d-flex align-items-center">
-                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px; background: linear-gradient(135deg, #DC143C, #228B22) !important;">
+                                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--unej-red), var(--unej-blue)) !important;">
                                             <i class="bi bi-person-fill text-white"></i>
                                         </div>
                                         <div>
@@ -341,30 +341,51 @@
 @endif
 
 <style>
+    :root {
+        --unej-red: #DC143C;
+        --unej-gold: #FFD700;
+        --unej-blue: #003DA5;
+        --unej-dark: #1a1a1a;
+    }
+
     .bg-gradient-unej {
-        background: linear-gradient(135deg, #DC143C 0%, #FFD700 50%, #228B22 100%) !important;
+        background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-blue) 100%) !important;
     }
 
     .card-stats {
         transition: transform 0.3s, box-shadow 0.3s;
+        border: 1px solid #e0e0e0 !important;
     }
 
     .card-stats:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 10px 25px rgba(220, 20, 60, 0.15) !important;
     }
 
     .info-box {
         transition: all 0.3s;
+        border-left: 4px solid var(--unej-red);
     }
 
     .info-box:hover {
         background-color: #f0f0f0 !important;
         transform: translateX(5px);
+        border-left-color: var(--unej-gold);
     }
 
     .fw-600 {
         font-weight: 600;
+    }
+
+    .alert-success {
+        background: linear-gradient(135deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.05));
+        color: #00c853;
+        border-left: 4px solid #00c853;
+        border: none;
+    }
+
+    .badge {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 </style>
 @endsection

@@ -298,8 +298,15 @@
 </div>
 
 <style>
+    :root {
+        --unej-red: #DC143C;
+        --unej-gold: #FFD700;
+        --unej-blue: #003DA5;
+        --unej-dark: #1a1a1a;
+    }
+
     .bg-gradient-unej {
-        background: linear-gradient(135deg, #DC143C 0%, #FFD700 50%, #228B22 100%) !important;
+        background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-blue) 100%) !important;
     }
 
     .fw-600 {
@@ -308,11 +315,13 @@
 
     .info-card {
         transition: all 0.3s;
+        border-left: 4px solid var(--unej-red);
     }
 
     .info-card:hover {
         background-color: #f5f5f5 !important;
         transform: translateY(-2px);
+        border-left-color: var(--unej-gold);
     }
 
     .nav-tabs .nav-link {
@@ -324,13 +333,63 @@
     }
 
     .nav-tabs .nav-link:hover {
-        color: #DC143C;
+        color: var(--unej-blue);
+        border-bottom-color: var(--unej-gold);
     }
 
     .nav-tabs .nav-link.active {
-        color: #DC143C;
+        color: var(--unej-red);
         background: none;
-        border-bottom: 3px solid #DC143C;
+        border-bottom: 3px solid var(--unej-red);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-blue) 100%);
+        border: none;
+        box-shadow: 0 4px 15px rgba(220, 20, 60, 0.25);
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, var(--unej-blue) 0%, var(--unej-red) 100%);
+        box-shadow: 0 6px 20px rgba(220, 20, 60, 0.3);
+        color: white;
+    }
+
+    .btn-outline-primary {
+        color: var(--unej-red);
+        border-color: var(--unej-red);
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--unej-red);
+        border-color: var(--unej-red);
+        color: white;
+    }
+
+    .btn-outline-danger {
+        color: var(--unej-blue);
+        border-color: var(--unej-blue);
+    }
+
+    .btn-outline-danger:hover {
+        background-color: var(--unej-blue);
+        border-color: var(--unej-blue);
+        color: white;
+    }
+
+    .badge {
+        padding: 5px 10px;
+        font-weight: 600;
+    }
+
+    .badge.bg-info {
+        background-color: var(--unej-blue) !important;
+    }
+
+    .alert-success {
+        background: linear-gradient(135deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.05));
+        color: #00c853;
+        border-left: 4px solid #00c853;
     }
 </style>
 @endsection

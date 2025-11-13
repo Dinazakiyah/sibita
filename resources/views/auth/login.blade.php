@@ -11,13 +11,11 @@
 
     <style>
         :root {
-            --primary-gradient-1: #667eea;
-            --primary-gradient-2: #764ba2;
-            --secondary-gradient-1: #f093fb;
-            --secondary-gradient-2: #4facfe;
-            --accent-color: #00d4ff;
-            --success-color: #00c853;
-            --warning-color: #ffc107;
+            --unej-red: #DC143C;
+            --unej-gold: #FFD700;
+            --unej-blue: #003DA5;
+            --unej-dark: #1a1a1a;
+            --unej-light: #f5f5f5;
         }
 
         * {
@@ -27,7 +25,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #667eea 100%);
+            background: linear-gradient(135deg, var(--unej-blue) 0%, var(--unej-red) 50%, var(--unej-gold) 100%);
             background-size: 400% 400%;
             background-attachment: fixed;
             min-height: 100vh;
@@ -61,8 +59,8 @@
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 20%, rgba(0,0,0,0.05) 0%, transparent 50%);
+                        radial-gradient(circle at 80% 80%, rgba(255,215,0,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(0,61,165,0.08) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -75,7 +73,7 @@
         .login-container {
             background: white;
             border-radius: 25px;
-            box-shadow: 0 20px 80px rgba(0,0,0,0.25), 0 0 60px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 20px 80px rgba(0,0,0,0.25), 0 0 60px rgba(220, 20, 60, 0.15);
             overflow: hidden;
             max-width: 950px;
             width: 100%;
@@ -126,7 +124,7 @@
         }
 
         .login-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-dark) 100%);
             color: white;
             padding: 50px 40px;
             text-align: center;
@@ -141,7 +139,7 @@
             right: -10%;
             width: 300px;
             height: 300px;
-            background: rgba(240, 147, 251, 0.2);
+            background: rgba(255, 215, 0, 0.15);
             border-radius: 50%;
         }
 
@@ -152,7 +150,7 @@
             left: -5%;
             width: 250px;
             height: 250px;
-            background: rgba(79, 172, 254, 0.15);
+            background: rgba(0, 61, 165, 0.1);
             border-radius: 50%;
         }
 
@@ -164,6 +162,7 @@
             position: relative;
             z-index: 2;
             text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            color: var(--unej-gold);
         }
 
         .login-header h3 {
@@ -220,9 +219,9 @@
         }
 
         .form-control:focus {
-            border-color: #667eea;
+            border-color: var(--unej-red);
             background-color: white;
-            box-shadow: 0 0 0 0.3rem rgba(102, 126, 234, 0.15);
+            box-shadow: 0 0 0 0.3rem rgba(220, 20, 60, 0.15);
             outline: none;
         }
 
@@ -240,12 +239,12 @@
             border: 2px solid #e0e0e0;
             cursor: pointer;
             transition: all 0.3s;
-            accent-color: #667eea;
+            accent-color: var(--unej-red);
         }
 
         .form-check-input:checked {
-            background-color: #667eea;
-            border-color: #667eea;
+            background-color: var(--unej-red);
+            border-color: var(--unej-red);
         }
 
         .form-check-label {
@@ -257,7 +256,7 @@
         }
 
         .btn-login {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-blue) 100%);
             color: white;
             border: none;
             padding: 16px 30px;
@@ -267,14 +266,14 @@
             font-size: 1rem;
             width: 100%;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(220, 20, 60, 0.35);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .btn-login:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+            box-shadow: 0 12px 35px rgba(220, 20, 60, 0.45);
             color: white;
         }
 
@@ -294,7 +293,7 @@
         }
 
         .register-link a {
-            color: #667eea;
+            color: var(--unej-red);
             font-weight: 700;
             text-decoration: none;
             transition: all 0.3s;
@@ -304,7 +303,7 @@
         }
 
         .register-link a:hover {
-            color: #764ba2;
+            color: var(--unej-blue);
             transform: translateX(5px);
         }
 
@@ -313,6 +312,7 @@
             border: none;
             margin-bottom: 20px;
             animation: slideInDown 0.5s ease-out;
+            border-left: 4px solid;
         }
 
         @keyframes slideInDown {
@@ -329,17 +329,17 @@
         .alert-success {
             background: linear-gradient(135deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.05));
             color: #00c853;
-            border-left: 4px solid #00c853;
+            border-left-color: #00c853;
         }
 
         .alert-danger {
-            background: linear-gradient(135deg, rgba(255, 69, 0, 0.15), rgba(255, 69, 0, 0.05));
-            color: #ff4500;
-            border-left: 4px solid #ff4500;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.15), rgba(220, 20, 60, 0.05));
+            color: var(--unej-red);
+            border-left-color: var(--unej-red);
         }
 
         .info-panel {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: linear-gradient(135deg, var(--unej-blue) 0%, var(--unej-red) 100%);
             color: white;
             padding: 50px 45px;
             display: flex;
@@ -357,7 +357,7 @@
             right: -100px;
             width: 300px;
             height: 300px;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 215, 0, 0.15);
             border-radius: 50%;
             animation: float 4s ease-in-out infinite;
         }
@@ -369,7 +369,7 @@
             left: -50px;
             width: 250px;
             height: 250px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 215, 0, 0.08);
             border-radius: 50%;
         }
 
@@ -380,6 +380,7 @@
             position: relative;
             z-index: 2;
             text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            color: var(--unej-gold);
         }
 
         .info-panel p {
@@ -412,11 +413,13 @@
 
         .info-panel li:hover {
             transform: translateX(10px);
+            color: var(--unej-gold);
         }
 
         .info-panel i {
             font-size: 1.5rem;
             flex-shrink: 0;
+            color: var(--unej-gold);
         }
 
         .info-footer {
