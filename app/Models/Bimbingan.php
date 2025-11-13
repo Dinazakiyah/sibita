@@ -5,10 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Model Bimbingan untuk mengelola data bimbingan
- * Setiap bimbingan berisi upload dokumen, komentar, dan status
- */
 class Bimbingan extends Model
 {
     use HasFactory;
