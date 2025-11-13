@@ -19,6 +19,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        /** @var User $user */
         $user = Auth::user();
 
         // Redirect ke dashboard sesuai role
@@ -72,6 +73,7 @@ class DashboardController extends Controller
      */
     private function dosenDashboard()
     {
+        /** @var User $dosen */
         $dosen = Auth::user();
 
         // Ambil mahasiswa yang dibimbing
@@ -113,6 +115,7 @@ class DashboardController extends Controller
      */
     private function mahasiswaDashboard()
     {
+        /** @var User $mahasiswa */
         $mahasiswa = Auth::user();
 
         // Ambil atau buat status mahasiswa
