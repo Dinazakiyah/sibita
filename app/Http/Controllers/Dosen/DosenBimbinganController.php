@@ -38,7 +38,7 @@ class DosenBimbinganController extends Controller
 
         // Cek apakah dosen membimbing mahasiswa ini
         $mahasiswa = $dosen->mahasiswaBimbingan()
-                          ->where('users.id', $id)
+                          ->where('id', $id)
                           ->with('statusMahasiswa')
                           ->firstOrFail();
 
@@ -102,7 +102,7 @@ class DosenBimbinganController extends Controller
 
         // Cek apakah dosen membimbing mahasiswa ini
         $isBimbingan = $dosen->mahasiswaBimbingan()
-                            ->where('users.id', $mahasiswaId)
+                            ->where('id', $mahasiswaId)
                             ->exists();
 
         if (!$isBimbingan) {
@@ -132,7 +132,7 @@ class DosenBimbinganController extends Controller
 
         // Cek apakah dosen membimbing mahasiswa ini
         $isBimbingan = $dosen->mahasiswaBimbingan()
-                            ->where('users.id', $mahasiswaId)
+                            ->where('id', $mahasiswaId)
                             ->exists();
 
         if (!$isBimbingan) {

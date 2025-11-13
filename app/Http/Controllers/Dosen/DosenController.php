@@ -78,7 +78,7 @@ class DosenController extends Controller
 
         if ($current->isDosen()) {
             $isBimbingan = $current->mahasiswaBimbingan()
-                ->where('users.id', $mahasiswa->id)
+                ->where('id', $mahasiswa->id)
                 ->exists();
 
             if (!$isBimbingan) {
