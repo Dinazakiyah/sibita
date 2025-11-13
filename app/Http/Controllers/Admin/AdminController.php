@@ -145,17 +145,26 @@ class AdminController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'nim_nip' => $validated['nim_nip'],
-            'phone' => $validated['phone'],
-            'password' => Hash::make($validated['password']),
-            'role' => 'dosen',
-        ]);
+        DB::beginTransaction();
+        try {
+            User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'nim_nip' => $validated['nim_nip'],
+                'phone' => $validated['phone'],
+                'password' => Hash::make($validated['password']),
+                'role' => 'dosen',
+            ]);
 
-        return redirect()->route('admin.dosen.index')
-                       ->with('success', 'Dosen berhasil ditambahkan!');
+            DB::commit();
+
+            return redirect()->route('admin.dosen.index')
+                           ->with('success', 'Dosen berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                        ->withInput();
+        }
     }
 
     /**
@@ -217,9 +226,18 @@ class AdminController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        SchedulePeriod::create($validated);
+        DB::beginTransaction();
+        try {
+            SchedulePeriod::create($validated);
 
-        return redirect()->route('admin.periods')->with('success', 'Periode baru berhasil dibuat');
+            DB::commit();
+
+            return redirect()->route('admin.periods')->with('success', 'Periode baru berhasil dibuat');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+                        ->withInput();
+        }
     }
 
     /**
