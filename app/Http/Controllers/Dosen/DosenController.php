@@ -19,23 +19,38 @@ class DosenController extends Controller
      */
     public function dashboard(): View
     {
-    /** @var User $dosen */
-    $dosen = Auth::user();
+        /** @var User $dosen */
+        $dosen = Auth::user();
 
-        $stats = [
-            'total_mahasiswa' => $dosen->mahasiswaBimbingan()->count(),
-            'total_bimbingan' => $dosen->bimbinganAsDosen()->count(),
-            'pending_submissions' => SubmissionFile::where('dosen_id', $dosen->id)
-                ->where('status', 'submitted')
-                ->count(),
-            'recent_bimbingan' => $dosen->bimbinganAsDosen()
-                ->with('mahasiswa')
-                ->latest('created_at')
-                ->limit(5)
-                ->get(),
-        ];
+        $totalMahasiswa = $dosen->mahasiswaBimbingan()->count();
 
-        return view('dosen.dashboard', $stats);
+        $bimbinganPending = $dosen->bimbinganAsDosen()
+            ->where('status', 'pending')
+            ->with(['mahasiswa', 'submissionFiles'])
+            ->latest('created_at')
+            ->get();
+
+        $pendingReview = SubmissionFile::where('dosen_id', $dosen->id)
+            ->where('status', 'submitted')
+            ->count();
+
+        $mahasiswaBimbingan = $dosen->mahasiswaBimbingan()
+            ->with(['statusMahasiswa', 'bimbinganAsMahasiswa'])
+            ->get();
+
+        $recentBimbingan = $dosen->bimbinganAsDosen()
+            ->with(['mahasiswa', 'submissionFiles.comments'])
+            ->latest('created_at')
+            ->limit(10)
+            ->get();
+
+        return view('dosen.dashboard', compact(
+            'totalMahasiswa',
+            'pendingReview',
+            'bimbinganPending',
+            'mahasiswaBimbingan',
+            'recentBimbingan'
+        ));
     }
 
     /**

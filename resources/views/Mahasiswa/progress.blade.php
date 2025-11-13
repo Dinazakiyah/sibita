@@ -17,7 +17,7 @@
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-header bg-light">
                         <h5 class="mb-0">
-                            <i class="bi bi-file-earmark-text"></i> 
+                            <i class="bi bi-file-earmark-text"></i>
                             {{ $progress['bimbingan']->judul ?? 'Bimbingan' }}
                         </h5>
                     </div>
@@ -35,7 +35,7 @@
                             <div class="progress" style="height: 25px;">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated"
                                      role="progressbar"
-                                     style="width: {{ $progress['percentage'] }}%; 
+                                     style="width: {{ $progress['percentage'] }}%;
                                             background: linear-gradient(135deg, var(--unej-red), var(--unej-green));"
                                      aria-valuenow="{{ $progress['percentage'] }}"
                                      aria-valuemin="0"
@@ -63,7 +63,7 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('mahasiswa.bimbingan.show', $progress['bimbingan']->id) }}" 
+                        <a href="{{ route('mahasiswa.bimbingan.show', $progress['bimbingan']->id) }}"
                            class="btn btn-outline-primary w-100">
                             <i class="bi bi-eye"></i> Lihat Detail
                         </a>
@@ -118,7 +118,7 @@
 @else
     <div class="alert alert-info">
         <i class="bi bi-info-circle"></i>
-        Belum ada data bimbingan. 
+        Belum ada data bimbingan.
         <a href="{{ route('mahasiswa.bimbingan.index') }}" class="alert-link">Ajukan bimbingan sekarang</a>
     </div>
 @endif
