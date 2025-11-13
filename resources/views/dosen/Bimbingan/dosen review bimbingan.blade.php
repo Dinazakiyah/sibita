@@ -94,6 +94,25 @@
                         @enderror
                     </div>
 
+                    <!-- Persentase -->
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Persentase Penilaian (0-100%)
+                        </label>
+                        <input type="number"
+                               name="percentage"
+                               class="form-control"
+                               min="0"
+                               max="100"
+                               step="0.01"
+                               placeholder="Masukkan persentase penilaian..."
+                               value="{{ old('percentage', $bimbingan->percentage) }}">
+                        <small class="text-muted">Opsional: Masukkan nilai persentase untuk penilaian bimbingan ini</small>
+                        @error('percentage')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <!-- Status -->
                     <div class="mb-4">
                         <label class="form-label">

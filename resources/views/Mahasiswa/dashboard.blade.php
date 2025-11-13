@@ -273,6 +273,11 @@
                                 <span class="{{ $bimbingan->getStatusBadge() }}">
                                     {{ $bimbingan->getStatusText() }}
                                 </span>
+                                @if($bimbingan->percentage)
+                                    <br><small class="text-success fw-bold">
+                                        <i class="bi bi-star-fill"></i> {{ number_format($bimbingan->percentage, 1) }}%
+                                    </small>
+                                @endif
                             </td>
                             <td>
                                 <a href="{{ route('mahasiswa.bimbingan.show', $bimbingan->id) }}"

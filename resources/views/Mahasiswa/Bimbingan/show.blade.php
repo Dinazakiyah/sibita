@@ -34,6 +34,14 @@
                         <h5 class="fw-bold" style="color: var(--unej-red);">
                             {{ ucfirst($bimbingan->status ?? 'pending') }}
                         </h5>
+                        @if($bimbingan->percentage)
+                            <p class="mb-1">
+                                <span class="badge bg-success fs-6">
+                                    <i class="bi bi-star-fill"></i> {{ number_format($bimbingan->percentage, 1) }}%
+                                </span>
+                            </p>
+                            <small class="text-muted">Penilaian Dosen</small>
+                        @endif
                         <small class="text-muted d-block mt-2">
                             <i class="bi bi-calendar"></i> Updated: {{ $bimbingan->updated_at->format('d M Y') }}
                         </small>

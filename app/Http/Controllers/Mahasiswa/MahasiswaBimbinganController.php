@@ -54,6 +54,12 @@ class MahasiswaBimbinganController extends Controller
 
         $mahasiswa = Auth::user();
 
+        // Validasi bahwa dosen adalah pembimbing yang ditugaskan
+        $isAssigned = $mahasiswa->dosenPembimbing()->where('users.id', $validated['dosen_id'])->exists();
+        if (!$isAssigned) {
+            return back()->withErrors(['dosen_id' => 'Dosen yang dipilih bukan pembimbing Anda yang ditugaskan.']);
+        }
+
         // Tentukan fase
         $status = StatusMahasiswa::where('mahasiswa_id', $mahasiswa->id)->first();
         $fase = $status && $status->layak_sempro ? 'sidang' : 'sempro';

@@ -18,6 +18,7 @@ class Bimbingan extends Model
         'deskripsi',
         'file_path',
         'komentar_dosen',
+        'percentage',
         'status',
         'tanggal_upload',
         'tanggal_revisi',

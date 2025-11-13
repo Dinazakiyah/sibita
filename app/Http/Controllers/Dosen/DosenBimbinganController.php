@@ -72,6 +72,7 @@ class DosenBimbinganController extends Controller
     {
         $validated = $request->validate([
             'komentar' => 'required|string',
+            'percentage' => 'nullable|numeric|min:0|max:100',
             'status' => 'required|in:revisi,approved',
         ]);
 
@@ -83,6 +84,7 @@ class DosenBimbinganController extends Controller
         // Update bimbingan
         $bimbingan->update([
             'komentar_dosen' => $validated['komentar'],
+            'percentage' => $validated['percentage'],
             'status' => $validated['status'],
             'tanggal_revisi' => now(),
         ]);
