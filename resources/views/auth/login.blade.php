@@ -7,239 +7,103 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
     <style>
         :root {
             --unej-red: #DC143C;
-            --unej-gold: #FFD700;
-            --unej-blue: #003DA5;
-            --unej-dark: #1a1a1a;
-            --unej-light: #f5f5f5;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --unej-yellow: #FFD700;
+            --unej-green: #228B22;
         }
 
         body {
-            background: linear-gradient(135deg, var(--unej-blue) 0%, var(--unej-red) 50%, var(--unej-gold) 100%);
-            background-size: 400% 400%;
-            background-attachment: fixed;
+            background-color: #f5f5f5;
             min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            /* NEW: agar seluruh halaman fleksibel & bisa center vertikal */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-x: hidden;
-            position: relative;
-            animation: gradientShift 15s ease infinite;
         }
 
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* Animated Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* NEW: wrapper vertikal */
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(255,215,0,0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 20%, rgba(0,61,165,0.08) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
         }
 
         .login-container {
             background: white;
-            border-radius: 25px;
-            box-shadow: 0 20px 80px rgba(0,0,0,0.25), 0 0 60px rgba(220, 20, 60, 0.15);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             overflow: hidden;
-            max-width: 950px;
+            max-width: 450px;
             width: 100%;
-            animation: slideUp 0.8s ease-out;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
         }
 
         .login-header {
-            background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-dark) 100%);
+            background-color: var(--unej-red);
             color: white;
-            padding: 50px 40px;
+            padding: 40px 30px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 215, 0, 0.15);
-            border-radius: 50%;
-        }
-
-        .login-header::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -5%;
-            width: 250px;
-            height: 250px;
-            background: rgba(0, 61, 165, 0.1);
-            border-radius: 50%;
         }
 
         .login-header i {
-            font-size: 4.5rem;
-            margin-bottom: 20px;
-            display: block;
-            animation: float 3s ease-in-out infinite;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            color: var(--unej-gold);
+            font-size: 4rem;
+            margin-bottom: 15px;
         }
 
         .login-header h3 {
-            font-weight: 800;
-            font-size: 1.8rem;
+            font-weight: 700;
             margin-bottom: 5px;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .login-header p {
             margin: 0;
-            font-size: 0.95rem;
-            opacity: 0.95;
-            position: relative;
-            z-index: 2;
+            opacity: 0.9;
         }
 
         .login-form {
-            padding: 50px 45px;
-            animation: fadeInLeft 0.8s ease-out 0.2s both;
-        }
-
-        .login-form h4 {
-            color: #333;
-            font-weight: 700;
-            margin-bottom: 30px;
-            font-size: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
+            padding: 40px;
         }
 
         .form-label {
             font-weight: 600;
             color: #333;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 8px;
         }
 
         .form-control {
+            padding: 12px 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 14px 16px;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            background-color: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s;
         }
 
         .form-control:focus {
             border-color: var(--unej-red);
-            background-color: white;
-            box-shadow: 0 0 0 0.3rem rgba(220, 20, 60, 0.15);
-            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.15);
         }
 
-        .form-control::placeholder {
-            color: #999;
-        }
-
-        .form-check {
-            margin-bottom: 20px;
-        }
-
-        .form-check-input {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #e0e0e0;
-            cursor: pointer;
+        .btn-login {
+            background-color: var(--unej-red);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            border-radius: 8px;
             transition: all 0.3s;
-            accent-color: var(--unej-red);
+        }
+
+        .btn-login:hover {
+            background-color: #b71c1c;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(220, 20, 60, 0.3);
         }
 
         .form-check-input:checked {
@@ -247,377 +111,138 @@
             border-color: var(--unej-red);
         }
 
-        .form-check-label {
-            cursor: pointer;
-            color: #666;
-            font-weight: 500;
-            user-select: none;
-            margin-left: 8px;
-        }
-
-        .btn-login {
-            background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-blue) 100%);
-            color: white;
+        .alert {
+            border-radius: 8px;
             border: none;
-            padding: 16px 30px;
-            font-weight: 700;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            width: 100%;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(220, 20, 60, 0.35);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        .btn-login:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(220, 20, 60, 0.45);
-            color: white;
-        }
-
-        .btn-login:active {
-            transform: translateY(-1px);
-        }
-
-        .register-link {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 25px;
+        .brand-colors {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
             border-top: 1px solid #e0e0e0;
         }
 
-        .register-link small {
-            color: #666;
+        .brand-colors span {
+            width: 30px;
+            height: 4px;
+            border-radius: 2px;
         }
 
-        .register-link a {
-            color: var(--unej-red);
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .color-red { background-color: var(--unej-red); }
+        .color-yellow { background-color: var(--unej-yellow); }
+        .color-green { background-color: var(--unej-green); }
 
-        .register-link a:hover {
-            color: var(--unej-blue);
-            transform: translateX(5px);
-        }
-
-        .alert {
-            border-radius: 12px;
-            border: none;
-            margin-bottom: 20px;
-            animation: slideInDown 0.5s ease-out;
-            border-left: 4px solid;
-        }
-
-        @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .alert-success {
-            background: linear-gradient(135deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.05));
-            color: #00c853;
-            border-left-color: #00c853;
-        }
-
-        .alert-danger {
-            background: linear-gradient(135deg, rgba(220, 20, 60, 0.15), rgba(220, 20, 60, 0.05));
-            color: var(--unej-red);
-            border-left-color: var(--unej-red);
-        }
-
-        .info-panel {
-            background: linear-gradient(135deg, var(--unej-blue) 0%, var(--unej-red) 100%);
-            color: white;
-            padding: 50px 45px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            animation: fadeInRight 0.8s ease-out 0.2s both;
-        }
-
-        .info-panel::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            right: -100px;
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 215, 0, 0.15);
-            border-radius: 50%;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .info-panel::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            left: -50px;
-            width: 250px;
-            height: 250px;
-            background: rgba(255, 215, 0, 0.08);
-            border-radius: 50%;
-        }
-
-        .info-panel h3 {
-            font-weight: 800;
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            color: var(--unej-gold);
-        }
-
-        .info-panel p {
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-            position: relative;
-            z-index: 2;
-            line-height: 1.6;
-        }
-
-        .info-panel ul {
-            list-style: none;
-            padding: 0;
-            position: relative;
-            z-index: 2;
-        }
-
-        .info-panel li {
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: all 0.3s;
-        }
-
-        .info-panel li:last-child {
-            border-bottom: none;
-        }
-
-        .info-panel li:hover {
-            transform: translateX(10px);
-            color: var(--unej-gold);
-        }
-
-        .info-panel i {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-            color: var(--unej-gold);
-        }
-
-        .info-footer {
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255,255,255,0.3);
-            position: relative;
-            z-index: 2;
-        }
-
-        .info-footer small {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            .login-container {
-                margin: 20px;
-                border-radius: 15px;
-            }
-
-            .login-form {
-                padding: 35px 25px;
-            }
-
-            .login-header {
-                padding: 35px 25px;
-            }
-
-            .login-header i {
-                font-size: 3.5rem;
-            }
-
-            .login-form h4 {
-                font-size: 1.2rem;
-            }
-
-            .info-panel {
-                padding: 35px 25px;
-                order: -1;
-            }
-
-            .row {
-                flex-direction: column-reverse;
-            }
+        /* NEW: agar footer selalu center di bawah form */
+        .footer {
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="login-container">
-                    <div class="row g-0">
-                        <!-- Form Login -->
-                        <div class="col-md-6">
-                            <div class="login-header">
-                                <i class="bi bi-mortarboard-fill"></i>
-                                <h3>Sistem Bimbingan TA</h3>
-                                <p>Universitas Jember</p>
-                            </div>
 
-                            <div class="login-form">
-                                <h4>
-                                    <i class="bi bi-box-arrow-in-right"></i>
-                                    Masuk ke Sistem
-                                </h4>
+<div class="page-wrapper">
 
-                                @if(session('success'))
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <i class="bi bi-check-circle-fill"></i>
-                                        <strong>Berhasil!</strong> {{ session('success') }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                    </div>
-                                @endif
+    <div class="login-container">
+        <!-- Header -->
+        <div class="login-header">
+            <i class="bi bi-mortarboard-fill"></i>
+            <h3>Sistem Bimbingan TA</h3>
+            <p>Universitas Jember</p>
+        </div>
 
-                                @if($errors->any())
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <i class="bi bi-exclamation-triangle-fill"></i>
-                                        <strong>Gagal!</strong> {{ $errors->first() }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                    </div>
-                                @endif
+        <!-- Form Login -->
+        <div class="login-form">
+            <h5 class="text-center mb-4 fw-bold">Login ke Sistem</h5>
 
-                                <form method="POST" action="{{ route('login') }}" id="loginForm">
-                                    @csrf
-
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            <i class="bi bi-envelope-fill"></i> Email
-                                        </label>
-                                        <input type="email"
-                                               name="email"
-                                               class="form-control"
-                                               value="{{ old('email') }}"
-                                               required
-                                               autofocus
-                                               placeholder="nama@example.com">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            <i class="bi bi-lock-fill"></i> Password
-                                        </label>
-                                        <input type="password"
-                                               name="password"
-                                               class="form-control"
-                                               required
-                                               placeholder="••••••••">
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input type="checkbox" name="remember" class="form-check-input" id="remember">
-                                        <label class="form-check-label" for="remember">
-                                            <i class="bi bi-bookmark-heart"></i> Ingat Saya
-                                        </label>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-login">
-                                        <i class="bi bi-arrow-right-circle-fill"></i>
-                                        Masuk Sekarang
-                                    </button>
-                                </form>
-
-                                <div class="register-link">
-                                    <small>
-                                        Belum punya akun?
-                                        <a href="{{ route('register') }}">
-                                            <i class="bi bi-person-plus"></i>
-                                            Daftar di sini
-                                        </a>
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Info Panel -->
-                        <div class="col-md-6">
-                            <div class="info-panel">
-                                <h3>
-                                    <i class="bi bi-hand-thumbs-up-fill"></i>
-                                    Selamat Datang!
-                                </h3>
-                                <p>Sistem Manajemen Bimbingan Tugas Akhir untuk memudahkan proses akademik Anda.</p>
-
-                                <ul>
-                                    <li>
-                                        <i class="bi bi-file-earmark-pdf-fill"></i>
-                                        <span>Upload & kelola dokumen bimbingan digital</span>
-                                    </li>
-                                    <li>
-                                        <i class="bi bi-chat-left-dots-fill"></i>
-                                        <span>Komunikasi real-time dengan dosen pembimbing</span>
-                                    </li>
-                                    <li>
-                                        <i class="bi bi-graph-up"></i>
-                                        <span>Monitor progres bimbingan secara terukur</span>
-                                    </li>
-                                    <li>
-                                        <i class="bi bi-archive-fill"></i>
-                                        <span>Arsip lengkap riwayat bimbingan Anda</span>
-                                    </li>
-                                </ul>
-
-                                <div class="info-footer">
-                                    <small>
-                                        <i class="bi bi-shield-lock"></i>
-                                        Akun Anda aman dan terlindungi dengan enkripsi tingkat tinggi
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            @if(session('success'))
+                <div class="alert alert-success">
+                    <i class="bi bi-check-circle-fill"></i>
+                    {{ session('success') }}
                 </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="bi bi-envelope"></i> Email
+                    </label>
+                    <input type="email"
+                           name="email"
+                           class="form-control"
+                           value="{{ old('email') }}"
+                           required
+                           autofocus
+                           placeholder="nama@example.com">
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="bi bi-lock"></i> Password
+                    </label>
+                    <input type="password"
+                           name="password"
+                           class="form-control"
+                           required
+                           placeholder="••••••••">
+                </div>
+
+                <!-- Remember Me -->
+                <div class="mb-4 form-check">
+                    <input type="checkbox"
+                           name="remember"
+                           class="form-check-input"
+                           id="remember">
+                    <label class="form-check-label" for="remember">
+                        Ingat Saya
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-login w-100">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Masuk
+                </button>
+            </form>
+
+            <!-- Info -->
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    Belum punya akun? Hubungi Admin Prodi
+                </small>
+            </div>
+
+            <!-- Brand Colors -->
+            <div class="brand-colors">
+                <span class="color-red"></span>
+                <span class="color-yellow"></span>
+                <span class="color-green"></span>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Tambahkan animasi submit
-        document.getElementById('loginForm').addEventListener('submit', function() {
-            const btn = this.querySelector('.btn-login');
-            btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Memproses...';
-            btn.disabled = true;
-        });
+    <!-- Footer -->
+    <div class="footer">
+        <small class="text-muted">
+            &copy; {{ date('Y') }} SIBITA by Dinaz.
+        </small>
+    </div>
 
-        // Smooth focus effect
-        document.querySelectorAll('.form-control').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
-            });
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-            });
-        });
-    </script>
+</div>
+
 </body>
 </html>

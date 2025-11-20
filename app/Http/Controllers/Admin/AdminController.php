@@ -198,7 +198,7 @@ class AdminController extends Controller
     public function periods(): View
     {
         $periods = SchedulePeriod::orderBy('start_date', 'desc')->paginate(15);
-        return view('admin.periods.index', compact('periods'));
+        return view('Admin.periods.index', compact('periods'));
     }
 
     /**
@@ -206,7 +206,7 @@ class AdminController extends Controller
      */
     public function createPeriod()
     {
-        return view('admin.periods.create');
+        return view('Admin.periods.create');
     }
 
     /**
@@ -230,7 +230,7 @@ class AdminController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.periods')->with('success', 'Periode baru berhasil dibuat');
+            return redirect()->route('Admin.periods')->with('success', 'Periode baru berhasil dibuat');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
@@ -264,6 +264,6 @@ class AdminController extends Controller
             'rejected' => SubmissionFile::where('status', 'rejected')->count(),
         ];
 
-        return view('admin.reports', compact('period', 'bimbinganStats', 'submissionStats'));
+        return view('Admin.laporan', compact('period', 'bimbinganStats', 'submissionStats'));
     }
 }

@@ -14,7 +14,7 @@
 
     <!-- Custom CSS dengan Tema UNEJ -->
     <style>
-        /* Warna Tema Universitas Jember: Merah, Kuning, Hijau */
+        /* Warna Tema Universitas Jember: Merah, Kuning, Hijau (SOLID) */
         :root {
             --unej-red: #DC143C;
             --unej-yellow: #FFD700;
@@ -27,9 +27,9 @@
             background-color: #f8f9fa;
         }
 
-        /* Navbar dengan gradasi warna UNEJ */
+        /* Navbar dengan warna merah solid UNEJ */
         .navbar-unej {
-            background: linear-gradient(135deg, var(--unej-red) 0%, var(--unej-yellow) 50%, var(--unej-green) 100%);
+            background-color: var(--unej-red);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
@@ -176,9 +176,6 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
-                                <li><a class="dropdown-item" href="{{ route('profile.show') }}">
-                                    <i class="bi bi-person-circle"></i> Profil
-                                </a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">

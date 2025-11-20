@@ -9,14 +9,14 @@
         <h2><i class="bi bi-person-circle"></i> Dashboard Mahasiswa</h2>
         <p class="text-muted mb-0">Selamat datang, {{ auth()->user()->name }}</p>
     </div>
-    <a href="{{ route('mahasiswa.bimbingan.index') }}" class="btn btn-unej-primary">
-        <i class="bi bi-file-earmark-arrow-up"></i> Ajukan Bimbingan
+    <a href="{{ route('mahasiswa.bimbingan.create') }}" class="btn btn-unej-primary">
+        <i class="bi bi-upload"></i> Upload Bimbingan Baru
     </a>
 </div>
 
 <!-- Status Progres Card -->
 <div class="card mb-4 border-0 shadow-lg">
-    <div class="card-header text-white" style="background: linear-gradient(135deg, var(--unej-red), var(--unej-green));">
+    <div class="card-header text-white" style="background-color: var(--unej-red);">
         <h5 class="mb-0">
             <i class="bi bi-graph-up-arrow"></i> Progres Bimbingan Tugas Akhir
         </h5>
@@ -273,11 +273,6 @@
                                 <span class="{{ $bimbingan->getStatusBadge() }}">
                                     {{ $bimbingan->getStatusText() }}
                                 </span>
-                                @if($bimbingan->percentage)
-                                    <br><small class="text-success fw-bold">
-                                        <i class="bi bi-star-fill"></i> {{ number_format($bimbingan->percentage, 1) }}%
-                                    </small>
-                                @endif
                             </td>
                             <td>
                                 <a href="{{ route('mahasiswa.bimbingan.show', $bimbingan->id) }}"
@@ -291,8 +286,8 @@
                             <td colspan="7" class="text-center py-5">
                                 <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
                                 <p class="text-muted mt-3 mb-3">Belum ada riwayat bimbingan</p>
-                                <a href="{{ route('mahasiswa.bimbingan.index') }}" class="btn btn-unej-primary">
-                                    <i class="bi bi-upload"></i> Ajukan Bimbingan Pertama
+                                <a href="{{ route('mahasiswa.bimbingan.create') }}" class="btn btn-unej-primary">
+                                    <i class="bi bi-upload"></i> Upload Bimbingan Pertama
                                 </a>
                             </td>
                         </tr>

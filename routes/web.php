@@ -127,3 +127,14 @@ Route::middleware(['auth', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasi
     Route::get('/bimbingan-compat/{id}/download', [MahasiswaBimbinganController::class, 'download'])->name('bimbingan.download');
     Route::get('/riwayat-compat/export', [MahasiswaBimbinganController::class, 'exportHistory'])->name('riwayat.export');
 });
+
+// Schedule Periods
+Route::get('/periods', [AdminController::class, 'periods'])->name('periods');
+Route::get('/periods/create', [AdminController::class, 'createPeriod'])->name('periods.create');
+Route::post('/periods', [AdminController::class, 'storePeriod'])->name('periods.store');
+
+// Tambahan route untuk edit, update, delete
+Route::get('/periods/{period}/edit', [AdminController::class, 'editPeriod'])->name('periods.edit');
+Route::put('/periods/{period}', [AdminController::class, 'updatePeriod'])->name('periods.update');
+Route::delete('/periods/{period}', [AdminController::class, 'deletePeriod'])->name('periods.delete');
+
