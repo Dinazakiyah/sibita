@@ -62,7 +62,7 @@ class DosenBimbinganController extends Controller
                              ->with('mahasiswa')
                              ->findOrFail($id);
 
-        return view('dosen.Bimbingan.dosen review bimbingan', compact('Bimbingan'));
+        return view('dosen.Bimbingan.dosen review bimbingan', compact('bimbingan'));
     }
 
     /**

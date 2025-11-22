@@ -64,28 +64,93 @@
 
         <!-- Comments Section -->
         <h6 class="fw-bold mb-3">
-            <i class="bi bi-chat-left-text"></i> Komentar dari Dosen
+            <i class="bi bi-chat-left-text"></i> Komentar & Revisi dari Dosen
             @if($comments && $comments->count())
                 <span class="badge bg-secondary">{{ $comments->count() }}</span>
             @endif
         </h6>
 
         @forelse($comments as $c)
-            <div class="card mb-3 border">
+            <div class="card mb-3 {{ $c->is_pinned ? 'border-warning' : 'border' }}">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
                             <strong>{{ $c->dosen->name ?? 'Dosen' }}</strong>
                             <p class="text-muted small mb-0">{{ $c->dosen->nim_nip ?? '' }}</p>
                         </div>
-                        <small class="text-muted">{{ $c->created_at->format('d M Y, H:i') }}</small>
+                        <div class="text-end">
+                            <small class="text-muted">{{ $c->created_at->format('d M Y, H:i') }}</small>
+                            @if($c->is_pinned)
+                                <div class="mt-1">
+                                    <span class="badge bg-warning text-dark">
+                                        <i class="bi bi-pin-fill"></i> Penting
+                                    </span>
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                    <p class="mb-0">{{ $c->comment }}</p>
-                    @if($c->is_pinned)
-                        <div class="mt-2">
-                            <span class="badge bg-warning text-dark">
-                                <i class="bi bi-pin-fill"></i> Penting
+
+                    <!-- Status Badge -->
+                    <div class="mb-3">
+                        @if($c->status === 'approved')
+                            <span class="badge bg-success fs-6">
+                                <i class="bi bi-check-circle-fill"></i> Disetujui
                             </span>
+                        @elseif($c->status === 'revision_needed')
+                            <span class="badge bg-warning text-dark fs-6">
+                                <i class="bi bi-exclamation-triangle-fill"></i> Perlu Revisi
+                            </span>
+                        @else
+                            <span class="badge bg-secondary fs-6">
+                                <i class="bi bi-clock"></i> Menunggu Review
+                            </span>
+                        @endif
+
+                        @if($c->priority > 0)
+                            <span class="badge bg-danger ms-2">
+                                Prioritas {{ $c->priority == 1 ? 'Tinggi' : 'Urgent' }}
+                            </span>
+                        @endif
+                    </div>
+
+                    <!-- Comment Content -->
+                    <div class="comment-content mb-3">
+                        <h6 class="text-primary mb-2">
+                            <i class="bi bi-chat-quote"></i> Komentar Dosen:
+                        </h6>
+                        <div class="bg-light p-3 rounded">
+                            {{ $c->comment }}
+                        </div>
+                    </div>
+
+                    <!-- Revision Requirements (if any) -->
+                    @if($c->status === 'revision_needed')
+                        <div class="alert alert-warning border-warning">
+                            <h6 class="alert-heading mb-2">
+                                <i class="bi bi-arrow-repeat"></i> Yang Perlu Direvisi:
+                            </h6>
+                            <ul class="mb-0">
+                                <li>Periksa kembali bagian yang ditandai dalam komentar di atas</li>
+                                <li>Lakukan perbaikan sesuai saran dosen</li>
+                                <li>Upload ulang dokumen yang telah direvisi</li>
+                                <li>Pastikan semua persyaratan terpenuhi sebelum upload ulang</li>
+                            </ul>
+                        </div>
+                    @elseif($c->status === 'approved')
+                        <div class="alert alert-success border-success">
+                            <h6 class="alert-heading mb-2">
+                                <i class="bi bi-check-circle-fill"></i> Dokumen Disetujui!
+                            </h6>
+                            <p class="mb-0">Selamat! Dokumen Anda telah disetujui oleh dosen. Lanjutkan ke tahap berikutnya atau upload dokumen baru jika diperlukan.</p>
+                        </div>
+                    @endif
+
+                    <!-- Action Button for Revision -->
+                    @if($c->status === 'revision_needed' && $submission->status !== 'approved')
+                        <div class="mt-3">
+                            <a href="{{ route('mahasiswa.uploads.create', $submission->bimbingan_id) }}" class="btn btn-warning">
+                                <i class="bi bi-upload"></i> Upload Revisi
+                            </a>
                         </div>
                     @endif
                 </div>
@@ -93,9 +158,36 @@
         @empty
             <div class="alert alert-info">
                 <i class="bi bi-info-circle"></i>
-                Belum ada komentar dari dosen. Silakan tunggu atau hubungi dosen Anda.
+                Belum ada komentar dari dosen. Silakan tunggu review dari dosen pembimbing Anda.
             </div>
         @endforelse
+
+        <!-- Submission History -->
+        @if($comments->count() > 0)
+            <div class="mt-4">
+                <h6 class="fw-bold mb-3">
+                    <i class="bi bi-clock-history"></i> Riwayat Review
+                </h6>
+                <div class="timeline">
+                    @foreach($comments->sortByDesc('created_at') as $index => $c)
+                        <div class="timeline-item mb-3">
+                            <div class="timeline-marker {{ $c->status === 'approved' ? 'bg-success' : ($c->status === 'revision_needed' ? 'bg-warning' : 'bg-secondary') }}"></div>
+                            <div class="timeline-content">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <strong>{{ $c->dosen->name }}</strong>
+                                        <small class="text-muted d-block">{{ $c->created_at->format('d M Y, H:i') }}</small>
+                                    </div>
+                                    <span class="badge {{ $c->status === 'approved' ? 'bg-success' : ($c->status === 'revision_needed' ? 'bg-warning' : 'bg-secondary') }}">
+                                        {{ $c->status === 'approved' ? 'Disetujui' : ($c->status === 'revision_needed' ? 'Perlu Revisi' : 'Review') }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 

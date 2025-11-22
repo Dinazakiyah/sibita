@@ -42,6 +42,27 @@
                             </p>
                             <small class="text-muted">Penilaian Dosen</small>
                         @endif
+
+                        <!-- Status Badge -->
+                        @if($bimbingan->status === 'approved')
+                            <div class="mt-2">
+                                <span class="badge bg-success fs-6">
+                                    <i class="bi bi-check-circle-fill"></i> Bimbingan Disetujui
+                                </span>
+                            </div>
+                        @elseif($bimbingan->status === 'revisi')
+                            <div class="mt-2">
+                                <span class="badge bg-warning text-dark fs-6">
+                                    <i class="bi bi-exclamation-triangle-fill"></i> Perlu Revisi
+                                </span>
+                            </div>
+                        @else
+                            <div class="mt-2">
+                                <span class="badge bg-secondary fs-6">
+                                    <i class="bi bi-clock"></i> Dalam Proses
+                                </span>
+                            </div>
+                        @endif
                         <small class="text-muted d-block mt-2">
                             <i class="bi bi-calendar"></i> Updated: {{ $bimbingan->updated_at->format('d M Y') }}
                         </small>
@@ -94,7 +115,7 @@
                                     @elseif($s->status === 'rejected')
                                         <span class="badge bg-danger"><i class="bi bi-x-lg"></i> Ditolak</span>
                                     @else
-                                        <span class="badge bg-warning text-dark"><i class="bi bi-clock"></i> Review</span>
+                                        <span class="badge bg-warning text-dark"><i class="bi bi-clock"></i> Menunggu Review</span>
                                     @endif
                                 </td>
                                 <td>
