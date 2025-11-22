@@ -55,7 +55,7 @@ class MahasiswaBimbinganController extends Controller
         $mahasiswa = Auth::user();
 
         // Validasi bahwa dosen adalah pembimbing yang ditugaskan
-        $isAssigned = $mahasiswa->dosenPembimbing()->where('id', $validated['dosen_id'])->exists();
+        $isAssigned = $mahasiswa->dosenPembimbing()->where('users.id', $validated['dosen_id'])->exists();
         if (!$isAssigned) {
             return back()->withErrors(['dosen_id' => 'Dosen yang dipilih bukan pembimbing Anda yang ditugaskan.']);
         }

@@ -1,0 +1,3 @@
+- [ ] Fix route name in AdminController.php: change 'Admin.periods' to 'admin.periods'
+- [ ] Fix route name in resources/views/Admin/periods/create.blade.php: change 'Admin.periods.store' to 'admin.periods.store'
+- [ ] Fix route name in resources/views/Admin/periods/index.blade.php: change 'Admin.periods.create' to 'admin.periods.create'

@@ -1,4 +1,4 @@
-@extends('Admin.layouts')
+@extends('layouts.app')
 
 @section('content')
 <div class="container mt-4">
@@ -6,7 +6,7 @@
 
     <div class="card shadow-sm mt-3">
         <div class="card-body">
-            <form action="{{ route('Admin.periods.store') }}" method="POST">
+            <form action="{{ route('admin.periods.store') }}" method="POST">
                 @csrf
 
                 <div class="row">

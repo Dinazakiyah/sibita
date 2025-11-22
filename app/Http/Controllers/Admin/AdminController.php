@@ -230,7 +230,7 @@ class AdminController extends Controller
 
             DB::commit();
 
-            return redirect()->route('Admin.periods')->with('success', 'Periode baru berhasil dibuat');
+            return redirect()->route('admin.periods')->with('success', 'Periode baru berhasil dibuat');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())

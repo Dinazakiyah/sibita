@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between mb-3">
         <h4>Daftar Periode Bimbingan</h4>
-        <a href="{{ route('Admin.periods.create') }}"
+        <a href="{{ route('admin.periods.create') }}"
            class="btn btn-primary">Tambah Periode</a>
     </div>
 
