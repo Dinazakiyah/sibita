@@ -1,7 +1,17 @@
 // Body
-$body-bg: #f8fafc;
+$body-bg: #e3f2fd; // light blue background
 
 // Typography
 $font-family-sans-serif: 'Nunito', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
+
+// Bootstrap color overrides for dominant blue theme
+$primary: #0d6efd;       // Bootstrap primary blue
+$secondary: #6c757d;     // muted gray-blue for secondary
+$success: #198754;       // green success (keep default)
+$info: #0dcaf0;          // info blue
+$warning: #ffc107;       // warning yellow (keep default)
+$danger: #dc3545;        // red danger (keep default)
+$light: #f8f9fa;         // light
+$dark: #212529;          // dark
