@@ -1,13 +1,9 @@
-# 🎓 Sibita - Status Implementasi Lengkap
+# 🎓 Sibita
+--- PROGRESS ---
 
-**Tanggal**: 13 November 2025  
-**Status**: ✅ **SIAP DIGUNAKAN**
+## 📋 Ringkasan 
 
----
-
-## 📋 Ringkasan Aplikasi
-
-Aplikasi **Sibita** adalah sistem manajemen bimbingan tugas akhir untuk Universitas Jember yang mendukung 3 role utama:
+- **Sibita** adalah sistem manajemen bimbingan tugas akhir untuk Universitas Jember yang mendukung 3 role utama:
 - **Admin Prodi** - Mengelola data, laporan, dan jadwal
 - **Dosen Pembimbing** - Review dan approve submission mahasiswa
 - **Mahasiswa** - Upload bimbingan dan track progress
@@ -17,8 +13,8 @@ Aplikasi **Sibita** adalah sistem manajemen bimbingan tugas akhir untuk Universi
 ## ✅ Fitur-Fitur yang Sudah Diimplementasikan
 
 ### 1️⃣ Admin Prodi
-- ✅ Kelola Data Mahasiswa (CRUD)
-- ✅ Kelola Data Dosen (CRUD)
+- ✅ Kelola Data Mahasiswa 
+- ✅ Kelola Data Dosen 
 - ✅ Lihat Laporan Aktivitas Bimbingan
 - ✅ Kelola Jadwal & Periode Bimbingan
 - ✅ Dashboard dengan statistik
@@ -26,35 +22,12 @@ Aplikasi **Sibita** adalah sistem manajemen bimbingan tugas akhir untuk Universi
 ### 2️⃣ Dosen Pembimbing
 - ✅ Lihat Daftar Mahasiswa Bimbingan
 - ✅ Lihat Detail Mahasiswa & Bimbingannya
-- ✅ Review dan Approve/Reject Submissions
-- ✅ Tambah Komentar pada Submissions
 - ✅ Lihat Riwayat Bimbingan
-- ✅ Dashboard dengan statistik pending review
 
 ### 3️⃣ Mahasiswa
-- ✅ Ajukan/Upload Bimbingan (Draft/Revision/Final)
 - ✅ Lihat Daftar Bimbingan & Detail
 - ✅ Lihat Status dan Komentar dari Dosen
-- ✅ Track Progress Keseluruhan Bimbingan
-- ✅ Download Riwayat Bimbingan (ZIP Archive)
 - ✅ Dashboard dengan status progress
-
----
-
-## 🛠️ Teknologi & Tools
-
-| Aspek | Tool |
-|-------|------|
-| **Framework** | Laravel 11.46.1 |
-| **PHP Version** | 8.3.25 |
-| **Database** | MySQL |
-| **Frontend** | Bootstrap 5.3.0, Bootstrap Icons 1.10.0 |
-| **Storage** | Local storage (storage/app/public/submissions) |
-| **Authentication** | Laravel Auth + Role-based Middleware |
-| **Authorization** | Policies (SubmissionFilePolicy, BimbinganPolicy) |
-| **Version Control** | Git/GitHub |
-
----
 
 ## 📁 Struktur Proyek
 

@@ -81,7 +81,7 @@ class MahasiswaBimbinganController extends Controller
         ]);
 
         return redirect()->route('mahasiswa.dashboard')
-                       ->with('success', 'Bimbingan berhasil diupload! Menunggu review dosen.');
+                        ->with('success', 'Bimbingan berhasil diupload! Menunggu review dosen.');
     }
 
     /**
@@ -90,8 +90,8 @@ class MahasiswaBimbinganController extends Controller
     public function show($id)
     {
         $bimbingan = Bimbingan::with('dosen')
-                             ->where('mahasiswa_id', Auth::id())
-                             ->findOrFail($id);
+                                ->where('mahasiswa_id', Auth::id())
+                                ->findOrFail($id);
 
         return view('mahasiswa.bimbingan.show', compact('bimbingan'));
     }
@@ -102,7 +102,7 @@ class MahasiswaBimbinganController extends Controller
     public function download($id)
     {
         $bimbingan = Bimbingan::where('mahasiswa_id', Auth::id())
-                             ->findOrFail($id);
+                                ->findOrFail($id);
 
         // Cek apakah file ada
         if (!Storage::disk('public')->exists($bimbingan->file_path)) {
@@ -123,9 +123,9 @@ class MahasiswaBimbinganController extends Controller
     {
         $mahasiswa = Auth::user();
         $bimbingan = Bimbingan::where('mahasiswa_id', $mahasiswa->id)
-                             ->with('dosen')
-                             ->orderBy('created_at')
-                             ->get();
+                                ->with('dosen')
+                                ->orderBy('created_at')
+                                ->get();
 
         $status = StatusMahasiswa::where('mahasiswa_id', $mahasiswa->id)->first();
 
