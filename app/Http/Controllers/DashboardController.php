@@ -89,10 +89,7 @@ class DashboardController extends Controller
 
         // Ambil bimbingan yang perlu direview
         $bimbinganPending = Bimbingan::where('dosen_id', $dosen->id)
-                                     ->where('status', 'pending')
-                                     ->with('mahasiswa')
-                                     ->latest()
-                                     ->get();
+                                     1
 
         // Aktivitas bimbingan terbaru
         $recentBimbingan = Bimbingan::where('dosen_id', $dosen->id)
