@@ -144,35 +144,69 @@
                     @if(!$status->layak_sempro)
                         <p class="mb-0">Upload dokumen bimbingan dan tunggu persetujuan dosen untuk kelayakan sempro.</p>
                     @else
-                        <p class="mb-0">Upload dokumen skripsi lengkap dan tunggu persetujuan dosen untuk kelayakan sidang.</p>
+                        </p>
+
                     @endif
+
                 </div>
+
             </div>
+
         </div>
+
         @endif
+
     </div>
+
 </div>
 
+
+
 <!-- Statistik Bimbingan -->
+
+@php
+    $totalBimbingan = $stats['total_bimbingan'] ?? 0;
+    $bimbinganApproved = $stats['approved_submissions'] ?? 0;
+@endphp
+
 <div class="row g-3 mb-4">
+
     <div class="col-md-6">
+
         <div class="card border-0 shadow-sm h-100">
+
             <div class="card-body text-center">
+
                 <i class="bi bi-file-earmark-text-fill" style="font-size: 2.5rem; color: var(--unej-red);"></i>
+
                 <h3 class="mt-3 mb-1 fw-bold">{{ $totalBimbingan }}</h3>
+
                 <p class="text-muted mb-0">Total Upload Bimbingan</p>
+
             </div>
+
         </div>
+
     </div>
+
     <div class="col-md-6">
+
         <div class="card border-0 shadow-sm h-100">
+
             <div class="card-body text-center">
+
                 <i class="bi bi-check-circle-fill" style="font-size: 2.5rem; color: var(--unej-green);"></i>
+
                 <h3 class="mt-3 mb-1 fw-bold">{{ $bimbinganApproved }}</h3>
+
                 <p class="text-muted mb-0">Bimbingan Disetujui</p>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
 <!-- Dosen Pembimbing -->

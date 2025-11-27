@@ -36,7 +36,7 @@ class AuthController extends Controller
         $remember = $request->has('remember');
 
         // Coba login dengan credentials yang diberikan
-        if (Auth::attempt($credentials, $remember)) {
+        if (Auth::attempt($credentials)) {
             // Regenerate session untuk keamanan
             $request->session()->regenerate();
 

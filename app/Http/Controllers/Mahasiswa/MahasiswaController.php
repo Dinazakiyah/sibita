@@ -23,6 +23,10 @@ class MahasiswaController extends Controller
         /** @var User $mahasiswa */
         $mahasiswa = \Illuminate\Support\Facades\Auth::user();
 
+        $status = $mahasiswa->statusMahasiswa;
+
+        $dosenPembimbing = $mahasiswa->dosenPembimbing()->get();
+
         $stats = [
             'total_bimbingan' => $mahasiswa->bimbinganAsMahasiswa()->count(),
             'pending_submissions' => SubmissionFile::where('mahasiswa_id', $mahasiswa->id)
@@ -31,7 +35,7 @@ class MahasiswaController extends Controller
             'approved_submissions' => SubmissionFile::where('mahasiswa_id', $mahasiswa->id)
                 ->where('status', 'approved')
                 ->count(),
-            'status_mahasiswa' => $mahasiswa->statusMahasiswa,
+            'status_mahasiswa' => $status,
         ];
 
         $recentBimbingan = $mahasiswa->bimbinganAsMahasiswa()
@@ -40,7 +44,7 @@ class MahasiswaController extends Controller
             ->limit(5)
             ->get();
 
-        return view('mahasiswa.dashboard', compact('stats', 'recentBimbingan'));
+        return view('Mahasiswa.dashboard', compact('stats', 'recentBimbingan', 'status', 'dosenPembimbing'));
     }
 
     /**
@@ -56,7 +60,7 @@ class MahasiswaController extends Controller
             ->latest('created_at')
             ->paginate(15);
 
-        return view('mahasiswa.bimbingan.index', compact('bimbingan'));
+        return view('Mahasiswa.Bimbingan.index', compact('bimbingan'));
     }
 
     /**
@@ -72,7 +76,7 @@ class MahasiswaController extends Controller
             ->latest('created_at')
             ->paginate(10);
 
-        return view('mahasiswa.bimbingan.show', compact('bimbingan', 'submissions'));
+        return view('Mahasiswa.Bimbingan.show', compact('bimbingan', 'submissions'));
     }
 
     /**
@@ -82,7 +86,7 @@ class MahasiswaController extends Controller
     {
         $this->authorize('view', $bimbingan);
 
-        return view('mahasiswa.uploads.create', compact('bimbingan'));
+        return view('Mahasiswa.uploads.create', compact('bimbingan'));
     }
 
     /**
@@ -99,9 +103,19 @@ class MahasiswaController extends Controller
         ]);
 
         // Store file
-        $filePath = $request->file('file')->store('submissions', 'public');
-        $fileSize = $request->file('file')->getSize();
+        try {
+            $filePath = $request->file('file')->store('submissions', 'public');
+            $fileSize = $request->file('file')->getSize();
+        } catch (\Exception $e) {
+            return back()->withErrors(['file' => 'Gagal menyimpan file. Mohon cek konfigurasi server dan permission folder storage.']);
+        }
 
+        // Verify storage link exists
+        if (!file_exists(public_path('storage'))) {
+            return back()->withErrors(['file' => 'Storage link belum dibuat. Jalankan perintah: php artisan storage:link']);
+        }
+
+        // Save submission record with dosen_id as null initially
         $submission = SubmissionFile::create([
             'bimbingan_id' => $bimbingan->id,
             'mahasiswa_id' => \Illuminate\Support\Facades\Auth::id(),
@@ -112,6 +126,7 @@ class MahasiswaController extends Controller
             'description' => $validated['description'],
             'status' => 'submitted',
             'submitted_at' => now(),
+            'dosen_id' => null,
         ]);
 
         return redirect()->route('mahasiswa.bimbingan.show', $bimbingan->id)
@@ -131,7 +146,7 @@ class MahasiswaController extends Controller
             ->latest('created_at')
             ->get();
 
-        return view('mahasiswa.submissions.show', compact('submission', 'comments'));
+        return view('Mahasiswa.submissions.show', compact('submission', 'comments'));
     }
 
     /**
@@ -159,7 +174,7 @@ class MahasiswaController extends Controller
             ];
         });
 
-        return view('mahasiswa.progress', compact('progressData'));
+        return view('Mahasiswa.progress', compact('progressData'));
     }
 
     /**
@@ -216,4 +231,55 @@ class MahasiswaController extends Controller
 
         return back()->with('error', 'Gagal membuat archive');
     }
+
+    public function createBimbingan()
+{
+    $mahasiswa = Auth::user();
+
+    // Ambil status mahasiswa (fase aktif: sempro/sidang)
+    $status = $mahasiswa->statusMahasiswa;
+    $faseAktif = $status->fase_aktif;
+
+    // Ambil dosen pembimbing mahasiswa (pembimbing 1 & 2)
+    $dosenPembimbing = $mahasiswa->dosenPembimbing()->get();
+
+    return view('Mahasiswa.Bimbingan.create', compact(
+        'dosenPembimbing',
+        'faseAktif',
+        'status'
+    ));
+}
+
+public function storeBimbingan(Request $request)
+{
+    $request->validate([
+        'dosen_id' => 'required|exists:users,id',
+        'judul' => 'required|string|max:255',
+        'deskripsi' => 'nullable|string',
+        'file' => 'required|mimes:pdf,doc,docx|max:5120', // 5MB
+    ]);
+
+    $mahasiswa = Auth::user();
+
+    // Upload file
+    $filePath = $request->file('file')->store(
+        'bimbingan/' . $mahasiswa->id,
+        'public'
+    );
+
+    // Simpan ke database
+    Bimbingan::create([
+        'mahasiswa_id' => $mahasiswa->id,
+        'dosen_id' => $request->dosen_id,
+        'judul' => $request->judul,
+        'deskripsi' => $request->deskripsi,
+        'file_path' => $filePath,
+        'fase' => $mahasiswa->statusMahasiswa->fase_aktif,  // sempro atau sidang
+    ]);
+
+    return redirect()->route('mahasiswa.bimbingan')
+        ->with('success', 'Bimbingan baru berhasil dibuat dan diupload!');
+}
+
+
 }

@@ -59,10 +59,42 @@ class DosenBimbinganController extends Controller
         $dosen = Auth::user();
 
         $bimbingan = Bimbingan::where('dosen_id', $dosen->id)
-                             ->with('mahasiswa')
+                             ->with(['mahasiswa', 'submissionFiles.comments.dosen'])
                              ->findOrFail($id);
 
         return view('dosen.Bimbingan.dosen review bimbingan', compact('bimbingan'));
+    }
+
+    /**
+     * Store comment on a submission file by dosen
+     */
+    public function commentOnSubmission(Request $request, $submissionId)
+    {
+        $validated = $request->validate([
+            'comment' => 'required|string|max:2000',
+        ]);
+
+        $dosen = Auth::user();
+
+        $submission = \App\Models\SubmissionFile::findOrFail($submissionId);
+
+        // Check if dosen is allowed to comment on this submission
+        $bimbingan = $submission->bimbingan;
+        if ($bimbingan->dosen_id !== $dosen->id) {
+            return back()->with('error', 'Anda tidak berhak mengomentari file ini.');
+        }
+
+        // Create comment
+        \App\Models\Comment::create([
+            'submission_file_id' => $submission->id,
+            'dosen_id' => $dosen->id,
+            'comment' => $validated['comment'],
+            'status' => null, // or provide a status if needed
+            'is_pinned' => false,
+            'priority' => 0,
+        ]);
+
+        return back()->with('success', 'Komentar berhasil ditambahkan.');
     }
 
     /**
@@ -87,6 +119,15 @@ class DosenBimbinganController extends Controller
             'percentage' => $validated['percentage'],
             'status' => $validated['status'],
             'tanggal_revisi' => now(),
+        ]);
+
+        // Update all related submission files' status accordingly
+        $submissionStatus = $validated['status'] === 'approved' ? 'approved' : 'revision_needed';
+
+        $bimbingan->submissionFiles()->update([
+            'status' => $submissionStatus,
+            'reviewed_at' => now(),
+            'dosen_id' => $dosen->id,
         ]);
 
         return redirect()->route('dosen.dashboard')

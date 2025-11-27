@@ -11,6 +11,7 @@ use App\Http\Controllers\Dosen\DosenController;
 use App\Http\Controllers\Admin\AdminController;
 
 
+
 // Redirect root ke login
 Route::get('/', function () {
     return redirect()->route('login');
@@ -19,7 +20,7 @@ Route::get('/', function () {
 // Authentication Routes (Guest Only)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
 });
@@ -98,6 +99,10 @@ Route::middleware(['auth', 'role:dosen'])->prefix('dosen')->name('dosen.')->grou
     Route::post('/bimbingan/{id}/review-compat', [DosenBimbinganController::class, 'submitReview'])->name('bimbingan.submit-review');
     Route::post('/mahasiswa/{id}/approve-sempro-compat', [DosenBimbinganController::class, 'approveLayakSempro'])->name('approve.sempro');
     Route::post('/mahasiswa/{id}/approve-sidang-compat', [DosenBimbinganController::class, 'approveLayakSidang'])->name('approve.sidang');
+
+    // New routes for bimbingan review and comments
+    Route::get('/bimbingan/{id}/review', [DosenBimbinganController::class, 'reviewBimbingan'])->name('bimbingan.review-new');
+    Route::post('/bimbingan/comment-submission/{submissionId}', [DosenBimbinganController::class, 'commentOnSubmission'])->name('dosen.bimbingan.comment-submission');
 });
 
 // Mahasiswa Routes
@@ -137,4 +142,30 @@ Route::post('/periods', [AdminController::class, 'storePeriod'])->name('periods.
 Route::get('/periods/{period}/edit', [AdminController::class, 'editPeriod'])->name('periods.edit');
 Route::put('/periods/{period}', [AdminController::class, 'updatePeriod'])->name('periods.update');
 Route::delete('/periods/{period}', [AdminController::class, 'deletePeriod'])->name('periods.delete');
+
+
+Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
+
+    // Form upload bimbingan baru
+    Route::get('/Mahasiswa/Bimbingan/upload',
+        [MahasiswaBimbinganController::class, 'create'])
+        ->name('mahasiswa.bimbingan.upload');
+
+    // Store file
+    Route::post('/Mahasiswa/Bimbingan/store',
+        [MahasiswaBimbinganController::class, 'store'])
+        ->name('Mahasiswa.Bimbingan.store');
+
+});
+
+
+Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
+    Route::get('/mahasiswa/bimbingan/upload', [MahasiswaBimbinganController::class, 'create'])
+        ->name('mahasiswa.bimbingan.create');
+
+    Route::post('/mahasiswa/bimbingan/upload', [MahasiswaBimbinganController::class, 'store'])
+        ->name('mahasiswa.bimbingan.store');
+});
+
+
 

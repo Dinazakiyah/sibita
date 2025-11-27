@@ -53,13 +53,63 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="fw-bold">Dokumen:</label>
+                        <label class="fw-bold">Dokumen Mahasiswa:</label>
                         <div>
-                            <a href="{{ asset('storage/' . $bimbingan->file_path) }}"
-                               class="btn btn-info"
-                               target="_blank">
-                                <i class="bi bi-download"></i> Unduh Dokumen
-                            </a>
+                            @if($bimbingan->submissionFiles && $bimbingan->submissionFiles->count() > 0)
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama File</th>
+                                            <th>Tipe File</th>
+                                            <th>Ukuran</th>
+                                            <th>Unduh</th>
+                                            <th>Komentar Dosen</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($bimbingan->submissionFiles as $submission)
+                                            <tr>
+                                                <td>{{ $submission->file_name }}</td>
+                                                <td>{{ ucfirst($submission->file_type) }}</td>
+                                                <td>{{ number_format($submission->file_size / 1024, 2) }} KB</td>
+                                                <td>
+                                                    <a href="{{ asset('storage/' . $submission->file_path) }}" class="btn btn-outline-primary btn-sm" target="_blank">
+                                                        <i class="bi bi-download"></i> Download
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $latestComment = $submission->comments->sortByDesc('created_at')->first();
+                                                    @endphp
+                                                    @if($latestComment)
+                                                        <div>{{ $latestComment->comment }}</div>
+                                                        <small class="text-muted">By {{ $latestComment->dosen->name ?? 'Dosen' }} at {{ $latestComment->created_at->format('d M Y, H:i') }}</small>
+                                                    @else
+                                                        <em>Tidak ada komentar</em>
+                                                    @endif
+                                                </td>
+                                                <td>
+<form action="{{ route('bimbingan.comment-submission', $submission->id) }}" method="POST">
+                                                        @csrf
+                                                        <div class="input-group">
+                                                            <input type="text" name="comment" class="form-control form-control-sm" placeholder="Tambahkan komentar" required>
+                                                            <button class="btn btn-primary btn-sm" type="submit">
+                                                                <i class="bi bi-chat-text"></i>
+                                                            </button>
+                                                        </div>
+                                                        @error('comment')
+                                                            <div class="text-danger small mt-1">{{ $message }}</div>
+                                                        @enderror
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <p><em>Belum ada dokumen dari mahasiswa.</em></p>
+                            @endif
                         </div>
                     </div>
 
