@@ -277,7 +277,8 @@ class MahasiswaController extends Controller
         'judul' => $request->judul,
         'deskripsi' => $request->deskripsi,
         'file_path' => $filePath,
-        'fase' => $mahasiswa->statusMahasiswa->fase_aktif,  // sempro atau sidang
+        // Ensure fase is one of allowed enum values; map user-friendly status if needed
+        'fase' => in_array($mahasiswa->statusMahasiswa->fase_aktif, ['sempro','sidang']) ? $mahasiswa->statusMahasiswa->fase_aktif : 'sempro',  // sempro or sidang
     ]);
 
     return redirect()->route('Mahasiswa.Bimbingan.mahasiswa upload bimbingan')

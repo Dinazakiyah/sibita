@@ -23,7 +23,8 @@ class MahasiswaBimbinganController extends Controller
     {
         $request->validate([
             'dosen_id'   => 'required|exists:users,id',
-            'fase' => 'required|string',
+            // Accept user-friendly values and map them later to DB enum values
+            'fase' => 'required|string|in:proposal,sempro,sidang',
             // Allow PDF, Word documents and ODF (odt)
             'file'       => 'required|file|mimes:pdf,doc,docx,odt|max:10240', // max 10MB
             'judul'  => 'required|string',
@@ -32,11 +33,21 @@ class MahasiswaBimbinganController extends Controller
 
         $filePath = $request->file('file')->store('bimbingan', 'public');
 
+        // Normalize fase values: 'proposal' is mapped to 'sempro' in DB
+        $rawFase = strtolower($request->input('fase'));
+        $faseMap = [
+            'proposal' => 'sempro',
+            'sempro' => 'sempro',
+            'sidang' => 'sidang',
+        ];
+
+        $normalizedFase = $faseMap[$rawFase] ?? 'sempro';
+
         Bimbingan::create([
             'judul' => $request->judul,
             'mahasiswa_id' => Auth::user()->id,   // ✔ sudah benar
             'dosen_id'     => $request->dosen_id,
-            'fase'   => $request->fase,
+            'fase'   => $normalizedFase,
             'file_path'    => $filePath,
             'deskripsi'    => $request->deskripsi,
             'status'       => 'pending',

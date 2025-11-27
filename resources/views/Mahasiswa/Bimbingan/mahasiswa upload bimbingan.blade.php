@@ -38,8 +38,12 @@
         {{-- Fase --}}
         <div class="mb-3">
             <label class="form-label">Fase</label>
-            <input type="text" name="fase" class="form-control" required
-                   placeholder="contoh: proposal, revisi bab 2, catatan">
+                <select name="fase" class="form-control" required>
+                    <option value="">-- Pilih Fase --</option>
+                    <option value="proposal">Proposal (Sempro)</option>
+                    <option value="sempro">Seminar Proposal (Sempro)</option>
+                    <option value="sidang">Sidang</option>
+                </select>
         </div>
 
         {{-- File Upload --}}
