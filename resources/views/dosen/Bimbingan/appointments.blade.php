@@ -54,23 +54,29 @@
                                             </td>
                                             <td>{{ $appointment->created_at->diffForHumans() }}</td>
                                             <td>
-                                                <div class="btn-group" role="group">
-                                                    <form action="{{ route('dosen.appointments.approve', $appointment->id) }}"
-                                                          method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('POST')
-                                                        <button type="submit" class="btn btn-sm btn-success"
-                                                                onclick="return confirm('Apakah Anda yakin ingin menyetujui jadwal ini?')">
-                                                            <i class="bi bi-check-circle"></i> Setujui
-                                                        </button>
-                                                    </form>
+                                                @if($appointment->status === 'pending')
+                                                    <div class="btn-group" role="group">
+                                                        <form action="{{ route('dosen.appointments.approve', $appointment->id) }}"
+                                                              method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('POST')
+                                                            <button type="submit" class="btn btn-sm btn-success"
+                                                                    onclick="return confirm('Apakah Anda yakin ingin menyetujui jadwal ini?')">
+                                                                <i class="bi bi-check-circle"></i> Setujui
+                                                            </button>
+                                                        </form>
 
-                                                    <button type="button" class="btn btn-sm btn-danger"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#rejectModal{{ $appointment->id }}">
-                                                        <i class="bi bi-x-circle"></i> Tolak
-                                                    </button>
-                                                </div>
+                                                        <button type="button" class="btn btn-sm btn-danger"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#rejectModal{{ $appointment->id }}">
+                                                            <i class="bi bi-x-circle"></i> Tolak
+                                                        </button>
+                                                    </div>
+                                                @else
+                                                    <span class="badge {{ $appointment->getStatusBadge() }}">
+                                                        {{ $appointment->getStatusText() }}
+                                                    </span>
+                                                @endif
                                             </td>
                                         </tr>
 
