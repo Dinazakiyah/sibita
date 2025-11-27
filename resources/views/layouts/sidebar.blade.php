@@ -38,6 +38,18 @@
                         Mahasiswa Bimbingan
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('dosen/appointments*') ? 'active' : '' }}" href="{{ route('dosen.appointments.index') }}">
+                        <i class="bi bi-calendar-event"></i>
+                        Permintaan Jadwal
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('dosen/schedule*') ? 'active' : '' }}" href="{{ route('dosen.schedule.my') }}">
+                        <i class="bi bi-calendar-check"></i>
+                        Jadwal Saya
+                    </a>
+                </li>
 
             @elseif(auth()->user()->isMahasiswa())
                 <!-- Menu Mahasiswa -->
@@ -45,6 +57,12 @@
                     <a class="nav-link {{ request()->is('mahasiswa/bimbingan/create') ? 'active' : '' }}" href="{{ route('mahasiswa.bimbingan.create') }}">
                         <i class="bi bi-upload"></i>
                         Upload Bimbingan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('mahasiswa/appointments*') ? 'active' : '' }}" href="{{ route('mahasiswa.appointments.index') }}">
+                        <i class="bi bi-calendar-plus"></i>
+                        Booking Jadwal
                     </a>
                 </li>
                 <li class="nav-item">

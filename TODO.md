@@ -1,3 +1,12 @@
-- [ ] Fix route name in AdminController.php: change 'Admin.periods' to 'admin.periods'
-- [ ] Fix route name in resources/views/Admin/periods/create.blade.php: change 'Admin.periods.store' to 'admin.periods.store'
-- [ ] Fix route name in resources/views/Admin/periods/index.blade.php: change 'Admin.periods.create' to 'admin.periods.create'
+# TODO: Implement Scheduling Feature for Guidance Sessions
+
+## Steps to Complete
+
+- [ ] Create Appointment model (`app/Models/Appointment.php`)
+- [ ] Create migration for appointments table
+- [ ] Update MahasiswaBimbinganController for student scheduling features
+- [ ] Update DosenBimbinganController for professor scheduling features
+- [ ] Create views for students (select slots, book appointments)
+- [ ] Create views for professors (manage appointments, set availability)
+- [x] Add routes for scheduling features
+- [x] Test the feature and ensure proper validation

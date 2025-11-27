@@ -103,6 +103,12 @@ Route::middleware(['auth', 'role:dosen'])->prefix('dosen')->name('dosen.')->grou
     // New routes for bimbingan review and comments
     Route::get('/bimbingan/{id}/review', [DosenBimbinganController::class, 'reviewBimbingan'])->name('bimbingan.review-new');
     Route::post('/bimbingan/comment-submission/{submissionId}', [DosenBimbinganController::class, 'commentOnSubmission'])->name('dosen.bimbingan.comment-submission');
+
+    // Appointment/Scheduling Routes
+    Route::get('/appointments', [DosenBimbinganController::class, 'appointmentsIndex'])->name('appointments.index');
+    Route::post('/appointments/{id}/approve', [DosenBimbinganController::class, 'approveAppointment'])->name('appointments.approve');
+    Route::post('/appointments/{id}/reject', [DosenBimbinganController::class, 'rejectAppointment'])->name('appointments.reject');
+    Route::get('/schedule', [DosenBimbinganController::class, 'mySchedule'])->name('schedule.my');
 });
 
 // Mahasiswa Routes
@@ -131,6 +137,12 @@ Route::middleware(['auth', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasi
     Route::get('/bimbingan-compat/{id}', [MahasiswaBimbinganController::class, 'show'])->name('bimbingan.compat');
     Route::get('/bimbingan-compat/{id}/download', [MahasiswaBimbinganController::class, 'download'])->name('bimbingan.download');
     Route::get('/riwayat-compat/export', [MahasiswaBimbinganController::class, 'exportHistory'])->name('riwayat.export');
+
+    // Appointment/Scheduling Routes
+    Route::get('/appointments', [MahasiswaBimbinganController::class, 'appointmentsIndex'])->name('appointments.index');
+    Route::post('/appointments/book', [MahasiswaBimbinganController::class, 'bookAppointment'])->name('appointments.book');
+    Route::get('/appointments/my', [MahasiswaBimbinganController::class, 'myAppointments'])->name('appointments.my');
+    Route::post('/appointments/{id}/cancel', [MahasiswaBimbinganController::class, 'cancelAppointment'])->name('appointments.cancel');
 });
 
 // Schedule Periods
