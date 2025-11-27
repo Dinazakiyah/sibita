@@ -7,12 +7,14 @@ use App\Models\User;
 use App\Models\Bimbingan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\Appointment;
 
 class MahasiswaBimbinganController extends Controller
 {
     public function create()
     {
+        Log::info('MahasiswaBimbinganController::create called by user: ' . (Auth::check() ? Auth::id() : 'guest'));
         $dosens = User::where('role', 'dosen')->get();
         return view('Mahasiswa.Bimbingan.mahasiswa upload bimbingan', compact('dosens'));
     }
@@ -21,22 +23,24 @@ class MahasiswaBimbinganController extends Controller
     {
         $request->validate([
             'dosen_id'   => 'required|exists:users,id',
-            'jenis_file' => 'required|string',
+            'fase' => 'required|string',
             // Allow PDF, Word documents and ODF (odt)
             'file'       => 'required|file|mimes:pdf,doc,docx,odt|max:10240', // max 10MB
+            'judul'  => 'required|string',
             'deskripsi'  => 'nullable|string',
         ]);
 
         $filePath = $request->file('file')->store('bimbingan', 'public');
 
         Bimbingan::create([
-            'judul_bimbingan' =>  Auth::user()->name,
+            'judul' => $request->judul,
             'mahasiswa_id' => Auth::user()->id,   // ✔ sudah benar
             'dosen_id'     => $request->dosen_id,
-            'jenis_file'   => $request->jenis_file,
+            'fase'   => $request->fase,
             'file_path'    => $filePath,
             'deskripsi'    => $request->deskripsi,
             'status'       => 'pending',
+            'tanggal_upload' => now(),
         ]);
 
         return redirect()->route('mahasiswa.bimbingan.create')

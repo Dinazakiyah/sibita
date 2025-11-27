@@ -14,13 +14,13 @@
         </div>
     @endif
 
-    <form action="{{ route('Mahasiswa.Bimbingan.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('mahasiswa.bimbingan.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         {{-- Pilihan Dosen Pembimbing --}}
         <div class="mb-3">
             <label class="form-label">Pilih Dosen Pembimbing</label>
-            <select name="dosen_id" class="form-control">
+            <select name="dosen_id" class="form-control" required>
                 <option value="">-- Pilih Dosen Pembimbing --</option>
                 @foreach ($dosens as $dosen)
                     <option value="{{ $dosen->id }}">{{ $dosen->name }}</option>
@@ -28,10 +28,17 @@
             </select>
         </div>
 
-        {{-- Jenis File --}}
+        {{-- Judul --}}
         <div class="mb-3">
-            <label class="form-label">Jenis File</label>
-            <input type="text" name="jenis_file" class="form-control"
+            <label class="form-label">Judul</label>
+            <input type="text" name="judul" class="form-control" required
+                   placeholder="Masukkan judul bimbingan">
+        </div>
+
+        {{-- Fase --}}
+        <div class="mb-3">
+            <label class="form-label">Fase</label>
+            <input type="text" name="fase" class="form-control" required
                    placeholder="contoh: proposal, revisi bab 2, catatan">
         </div>
 

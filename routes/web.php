@@ -118,11 +118,17 @@ Route::middleware(['auth', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasi
 
     // Bimbingan
     Route::get('/bimbingan', [MahasiswaController::class, 'bimbingan'])->name('bimbingan.index');
-    Route::get('/bimbingan/{bimbingan}', [MahasiswaController::class, 'showBimbingan'])->name('bimbingan.show');
+    // Use numeric constraint for bimbingan to avoid route conflicts with static paths (e.g. '/upload')
+    Route::get('/bimbingan/{bimbingan}', [MahasiswaController::class, 'showBimbingan'])->whereNumber('bimbingan')->name('bimbingan.show');
 
     // File Upload
     Route::get('/bimbingan/{bimbingan}/upload', [MahasiswaController::class, 'uploadForm'])->name('uploads.create');
     Route::post('/bimbingan/{bimbingan}/upload', [MahasiswaController::class, 'storeUpload'])->name('uploads.store');
+
+    // General upload page for Mahasiswa (without specific bimbingan id)
+    // This points to the legacy MahasiswaBimbinganController that provides a simple upload form
+    Route::get('/bimbingan/upload', [MahasiswaBimbinganController::class, 'create'])->name('bimbingan.upload');
+    Route::post('/bimbingan/upload', [MahasiswaBimbinganController::class, 'store'])->name('bimbingan.store');
 
     // Submissions & Comments
     Route::get('/submissions/{submission}', [MahasiswaController::class, 'showSubmission'])->name('submissions.show');

@@ -1,0 +1,505 @@
+HTTP/1.1 302 Found
+Host: 127.0.0.1:8000
+Connection: close
+X-Powered-By: PHP/8.3.25
+Cache-Control: no-cache, private
+Date: Thu, 27 Nov 2025 13:46:33 GMT
+Location: http://127.0.0.1:8000/dashboard
+Content-Type: text/html; charset=utf-8
+Set-Cookie: XSRF-TOKEN=eyJpdiI6IitMM3p2VlRFUDRaQUxhTkoxOWdZcnc9PSIsInZhbHVlIjoiYmhTK21YSDM4MzEyS0lkcUtFcXdvVFoyMGxFMXNTQ0laRW5BazU4NnVkQ0pOSUxYcUZMMEsyTlN2aHBNWkc4OWF2TURsZ0dNdCs1RUk5aFJpZ0hhN0hNMWcyUEt0UlY1MEN0bndMQXVlYzBOa0grVjNvWHFGOEg5SDJmS0huSGkiLCJtYWMiOiIzYTk3NDM1YWJmMjVkZGJlM2Y2YjcxNzNjY2ViZTYxZjQzZTYxNzk2NzBjMTE0ZWZiZDMxZDFhODE5NGFlNTY5IiwidGFnIjoiIn0%3D; expires=Thu, 27 Nov 2025 15:46:33 GMT; Max-Age=7200; path=/; samesite=lax
+Set-Cookie: laravel_session=eyJpdiI6IjJaalpLQ3hWVW1OSUhRMG5KWlRUU2c9PSIsInZhbHVlIjoiazEzYVFpOXk2MTR2dVBjbDhJSzJIclh4SkZvRWc0cURWbU1nWEFIa3BUZGh0dmJuT0RHYUVPenRYNjRJMHVHRGQ4T0c4SFVid2tZSW9EQlRsYTVOcE5MdjFsR0dnVlN6cUF0SU9mS1lXaVRsd3M2LzkwdEJpZWdweXlXT3d3aFMiLCJtYWMiOiI1ZjQyZDhlZTdlNWY4NmMwMzA2MzQ4NjZjMzg2MDBmYThmN2U0ZWRlMGUwZTcwOWE0NTAwYjk0NzI4OWU2YTdmIiwidGFnIjoiIn0%3D; expires=Thu, 27 Nov 2025 15:46:33 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+
+HTTP/1.1 200 OK
+Host: 127.0.0.1:8000
+Connection: close
+X-Powered-By: PHP/8.3.25
+Content-Type: text/html; charset=UTF-8
+Cache-Control: no-cache, private
+Date: Thu, 27 Nov 2025 13:46:33 GMT
+Set-Cookie: XSRF-TOKEN=eyJpdiI6IisvU1ljdkJNYWYxbWM2WGo0R1B3Z3c9PSIsInZhbHVlIjoiNUhFTTg5Z2hpb1FpZENCdkFINHlXdVdER2szNzVQMFpESUlZTFpVeGJybU5TVHcyaE1UUmJpK0pWTFpTaUpaR3dhR3FiN2NJQjV2VHJWb3l2czQzdzEyc0d0R0lkeXFrenM5MzlnNUY2VVFZZlViajNHM1NXc2pGNzVMeHQyV3giLCJtYWMiOiJkMjM0NjU4MWQ3ZmU3NDQ5ZjUzZWY5MzE1MmYwZTE0NzlhYTJlMzJmZjZjOWQxNjM0YzIwY2ExMDk5YjU3Y2E2IiwidGFnIjoiIn0%3D; expires=Thu, 27 Nov 2025 15:46:33 GMT; Max-Age=7200; path=/; samesite=lax
+Set-Cookie: laravel_session=eyJpdiI6Ik85ZVVOVjZ2RElZK0xqaTdQUktNUkE9PSIsInZhbHVlIjoiVG1HWWtkQ1NlTkw3bHJnWWZJVy9SbVVNRkVESERXUjI3a1A0Ukp3NE4yV0dGalVjc1A2bjFPVjFiMmxsdlRmcXhuc3pnK1c0V0NKeFBPTEtRQWhSZWVCZHlrN3J5ajlVMUpHb04zcTVwanpXejYybTI5Y3YwM3MxQlNHaXBIbUMiLCJtYWMiOiJhYTYxNzQwZmFiZjZiMWUwYjk1M2Q4ZTQ4MTJlNzczOWE3MGJhMWNmOGQwMjIwN2UzYzIwMzIxOGQ3M2NmODlkIiwidGFnIjoiIn0%3D; expires=Thu, 27 Nov 2025 15:46:33 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="FHDcAdBQwIilM88kIcDjczrr0AnljiZyrrqdHMX7">
+    <title>Dashboard Admin</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Custom CSS dengan Tema UNEJ -->
+    <style>
+        /* Warna Tema Universitas Jember: Merah, Kuning, Hijau (SOLID) */
+        :root {
+            --unej-red: #DC143C;
+            --unej-yellow: #FFD700;
+            --unej-green: #228B22;
+            --unej-dark: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Navbar dengan warna merah solid UNEJ */
+        .navbar-unej {
+            background-color: var(--unej-red);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-unej .navbar-brand,
+        .navbar-unej .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        .navbar-unej .nav-link:hover {
+            color: var(--unej-dark) !important;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            min-height: calc(100vh - 56px);
+            background-color: white;
+            border-right: 1px solid #dee2e6;
+            padding: 20px 0;
+        }
+
+        .sidebar .nav-link {
+            color: #333;
+            padding: 12px 20px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #f8f9fa;
+            border-left-color: var(--unej-red);
+            color: var(--unej-red);
+        }
+
+        .sidebar .nav-link.active {
+            background-color: #fff3cd;
+            border-left-color: var(--unej-green);
+            color: var(--unej-green);
+            font-weight: 600;
+        }
+
+        /* Card dengan aksen warna UNEJ */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--unej-red), var(--unej-yellow));
+            color: white;
+            font-weight: 600;
+            border-radius: 10px 10px 0 0 !important;
+        }
+
+        /* Button dengan warna UNEJ */
+        .btn-unej-primary {
+            background: var(--unej-red);
+            color: white;
+            border: none;
+        }
+
+        .btn-unej-primary:hover {
+            background: #b71c1c;
+            color: white;
+        }
+
+        .btn-unej-success {
+            background: var(--unej-green);
+            color: white;
+            border: none;
+        }
+
+        .btn-unej-success:hover {
+            background: #1b5e20;
+            color: white;
+        }
+
+        .btn-unej-warning {
+            background: var(--unej-yellow);
+            color: #333;
+            border: none;
+        }
+
+        .btn-unej-warning:hover {
+            background: #fbc02d;
+        }
+
+        /* Badge dengan warna UNEJ */
+        .badge-unej {
+            background: linear-gradient(135deg, var(--unej-red), var(--unej-green));
+            color: white;
+        }
+
+        /* Alert */
+        .alert {
+            border-radius: 8px;
+            border: none;
+        }
+
+        /* Table */
+        .table thead {
+            background: linear-gradient(135deg, var(--unej-red), var(--unej-yellow));
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--unej-dark);
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+    </style>
+
+    </head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-unej">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="http://127.0.0.1:8000/dashboard">
+                <i class="bi bi-mortarboard-fill"></i>
+                Sistem Bimbingan TA - UNEJ
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i>
+                                Admin Prodi Informatika
+                                <span class="badge badge-unej">ADMIN</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="http://127.0.0.1:8000/dashboard">Dashboard</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="http://127.0.0.1:8000/logout" method="POST">
+                                        <input type="hidden" name="_token" value="FHDcAdBQwIilM88kIcDjczrr0AnljiZyrrqdHMX7" autocomplete="off">                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="bi bi-box-arrow-right"></i> Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                                    </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+                            <!-- Sidebar -->
+                <nav class="col-md-3 col-lg-2 d-md-block sidebar">
+    <div class="position-sticky">
+        <ul class="nav flex-column">
+            <!-- Dashboard - Untuk Semua Role -->
+            <li class="nav-item">
+                <a class="nav-link active" href="http://127.0.0.1:8000/dashboard">
+                    <i class="bi bi-speedometer2"></i>
+                    Dashboard
+                </a>
+            </li>
+
+                            <!-- Menu Admin -->
+                <li class="nav-item">
+                    <a class="nav-link " href="http://127.0.0.1:8000/admin/mahasiswa">
+                        <i class="bi bi-people-fill"></i>
+                        Kelola Mahasiswa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="http://127.0.0.1:8000/admin/dosen">
+                        <i class="bi bi-person-badge-fill"></i>
+                        Kelola Dosen
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="http://127.0.0.1:8000/admin/laporan">
+                        <i class="bi bi-file-earmark-bar-graph-fill"></i>
+                        Laporan Aktivitas
+                    </a>
+                </li>
+
+                    </ul>
+
+        <!-- Info User di Sidebar -->
+        <div class="mt-5 px-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-person-circle" style="font-size: 3rem; color: var(--unej-red);"></i>
+                    <h6 class="mt-2 mb-0">Admin Prodi Informatika</h6>
+                    <small class="text-muted">ADM001</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+            
+            <!-- Content Area -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                <!-- Alert Messages -->
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill"></i>
+                        Selamat datang, Admin Prodi Informatika
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                
+                
+                
+                <div class="mb-4">
+    <h2><i class="bi bi-speedometer2"></i> Dashboard Admin Prodi</h2>
+    <p class="text-muted">Selamat datang, Admin Prodi Informatika</p>
+</div>
+
+<!-- Statistik Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card text-center h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="mb-3">
+                    <i class="bi bi-people-fill" style="font-size: 3rem; color: var(--unej-red);"></i>
+                </div>
+                <h2 class="fw-bold mb-1">3</h2>
+                <p class="text-muted mb-0">Total Mahasiswa</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="mb-3">
+                    <i class="bi bi-person-badge-fill" style="font-size: 3rem; color: var(--unej-yellow);"></i>
+                </div>
+                <h2 class="fw-bold mb-1">3</h2>
+                <p class="text-muted mb-0">Total Dosen</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="mb-3">
+                    <i class="bi bi-file-earmark-text-fill" style="font-size: 3rem; color: var(--unej-green);"></i>
+                </div>
+                <h2 class="fw-bold mb-1">0</h2>
+                <p class="text-muted mb-0">Total Bimbingan</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <div class="mb-3">
+                    <i class="bi bi-trophy-fill" style="font-size: 3rem; color: var(--unej-green);"></i>
+                </div>
+                <h2 class="fw-bold mb-1">0</h2>
+                <p class="text-muted mb-0">Layak Sidang</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title mb-3">
+                    <i class="bi bi-lightning-fill"></i> Quick Actions
+                </h5>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="http://127.0.0.1:8000/admin/mahasiswa/create" class="btn btn-unej-primary">
+                        <i class="bi bi-person-plus-fill"></i> Tambah Mahasiswa
+                    </a>
+                    <a href="http://127.0.0.1:8000/admin/dosen/create" class="btn btn-unej-warning">
+                        <i class="bi bi-person-plus-fill"></i> Tambah Dosen
+                    </a>
+                    <a href="http://127.0.0.1:8000/admin/laporan" class="btn btn-unej-success">
+                        <i class="bi bi-file-earmark-bar-graph"></i> Lihat Laporan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Progress Overview -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-graph-up-arrow"></i> Progress Mahasiswa
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <div class="progress mb-3" style="height: 10px;">
+                                <div class="progress-bar bg-secondary" role="progressbar"
+                                     style="width: 100%">
+                                </div>
+                            </div>
+                            <h4 class="fw-bold">3</h4>
+                            <p class="text-muted mb-0">Bimbingan Awal</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <div class="progress mb-3" style="height: 10px;">
+                                <div class="progress-bar" role="progressbar"
+                                     style="width: 0%; background: var(--unej-yellow)">
+                                </div>
+                            </div>
+                            <h4 class="fw-bold">0</h4>
+                            <p class="text-muted mb-0">Layak Sempro</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3">
+                            <div class="progress mb-3" style="height: 10px;">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                     style="width: 0%">
+                                </div>
+                            </div>
+                            <h4 class="fw-bold">0</h4>
+                            <p class="text-muted mb-0">Layak Sidang</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content Row -->
+<div class="row">
+    <!-- Aktivitas Bimbingan Terbaru -->
+    <div class="col-md-6 mb-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-clock-history"></i> Aktivitas Bimbingan Terbaru
+                </h5>
+            </div>
+            <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                                    <div class="text-center py-5">
+                        <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc;"></i>
+                        <p class="text-muted mt-3">Belum ada aktivitas bimbingan</p>
+                    </div>
+                            </div>
+        </div>
+    </div>
+
+    <!-- Status Mahasiswa -->
+    <div class="col-md-6 mb-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">
+                    <i class="bi bi-person-check"></i> Status Mahasiswa Terbaru
+                </h5>
+            </div>
+            <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                                    <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                        <div>
+                            <h6 class="mb-1">Rizky Pratama</h6>
+                            <small class="text-muted">
+                                <i class="bi bi-card-text"></i> 202110003
+                            </small>
+                        </div>
+                        <div class="text-end">
+                                                            <span class="badge bg-secondary mb-1">
+                                    <i class="bi bi-hourglass-split"></i> Bimbingan Awal
+                                </span>
+                                                        <div class="progress" style="height: 5px; width: 100px;">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                     style="width: 0%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                        <div>
+                            <h6 class="mb-1">Ahmad Fauzi</h6>
+                            <small class="text-muted">
+                                <i class="bi bi-card-text"></i> 202110001
+                            </small>
+                        </div>
+                        <div class="text-end">
+                                                            <span class="badge bg-secondary mb-1">
+                                    <i class="bi bi-hourglass-split"></i> Bimbingan Awal
+                                </span>
+                                                        <div class="progress" style="height: 5px; width: 100px;">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                     style="width: 0%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                        <div>
+                            <h6 class="mb-1">Dewi Kusuma Wardani</h6>
+                            <small class="text-muted">
+                                <i class="bi bi-card-text"></i> 202110002
+                            </small>
+                        </div>
+                        <div class="text-end">
+                                                            <span class="badge bg-secondary mb-1">
+                                    <i class="bi bi-hourglass-split"></i> Bimbingan Awal
+                                </span>
+                                                        <div class="progress" style="height: 5px; width: 100px;">
+                                <div class="progress-bar bg-success" role="progressbar"
+                                     style="width: 0%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            </div>
+        </div>
+    </div>
+</div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Universitas Jember. Sistem Manajemen Bimbingan Tugas Akhir.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    </body>
+</html>
