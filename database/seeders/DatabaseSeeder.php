@@ -24,7 +24,16 @@ class DatabaseSeeder extends Seeder
             'phone' => '081234567890',
         ]);
 
-        echo "✓ Admin created\n";
+        $admin2 = User::create([
+            'name' => 'Admin UNEJ',
+            'email' => 'adminunej@gmail.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+            'nim_nip' => 'ADM002',
+            'phone' => '081234567891',
+        ]);
+
+        echo "✓ Admin created (2)\n";
 
         // 2. Buat Dosen
         $dosen1 = User::create([
@@ -136,6 +145,8 @@ class DatabaseSeeder extends Seeder
         echo "----------------------------------------\n";
         echo "ADMIN:\n";
         echo "Email: admin@unej.ac.id\n";
+        echo "Password: password\n";
+        echo "Email: adminunej@gmail.com\n";
         echo "Password: password\n";
         echo "----------------------------------------\n";
         echo "DOSEN:\n";

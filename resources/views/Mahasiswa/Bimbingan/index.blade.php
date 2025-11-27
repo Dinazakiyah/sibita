@@ -78,15 +78,15 @@
                 </label>
                 <div class="input-group">
                     <input type="file" name="file"
-                           class="form-control @error('file') is-invalid @enderror"
-                           accept=".pdf,.doc,.docx"
+                               class="form-control @error('file') is-invalid @enderror"
+                               accept=".pdf,.doc,.docx,.odt,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text"
                            required>
                     <span class="input-group-text">
                         <i class="bi bi-paperclip"></i>
                     </span>
                 </div>
                 <small class="form-text text-muted d-block mt-2">
-                    Format: PDF, DOC, atau DOCX | Ukuran Maksimal: 10MB
+                    Format: PDF, DOC, DOCX, atau ODT (OpenDocument Text) | Ukuran Maksimal: 10MB
                 </small>
                 @error('file')
                     <div class="invalid-feedback d-block">{{ $message }}</div>

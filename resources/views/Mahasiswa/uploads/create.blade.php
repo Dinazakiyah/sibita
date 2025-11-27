@@ -43,7 +43,8 @@
     {{-- FILE UPLOAD --}}
     <div class="form-group mt-3">
         <label class="font-semibold">Upload File</label>
-        <input type="file" name="file" class="form-control" required>
+        <input type="file" name="file" class="form-control" accept=".pdf,.doc,.docx,.odt,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.oasis.opendocument.text" required>
+        <small class="form-text text-muted d-block mt-2">Format: PDF, DOC, DOCX, atau ODT | Ukuran Maksimal: 10MB</small>
     </div>
 
     {{-- DESCRIPTION --}}

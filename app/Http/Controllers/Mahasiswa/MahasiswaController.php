@@ -97,7 +97,8 @@ class MahasiswaController extends Controller
         $this->authorize('view', $bimbingan);
 
         $validated = $request->validate([
-            'file' => 'required|file|mimes:pdf,doc,docx|max:10240', // Max 10MB
+            // Allow PDF, Word documents and ODF (odt)
+            'file' => 'required|file|mimes:pdf,doc,docx,odt|max:10240', // Max 10MB
             'file_type' => 'required|in:draft,revision,final',
             'description' => 'nullable|string|max:1000',
         ]);
@@ -234,7 +235,8 @@ class MahasiswaController extends Controller
 
     public function createBimbingan()
 {
-    $mahasiswa = Auth::user();
+        /** @var User $mahasiswa */
+        $mahasiswa = Auth::user();
 
     // Ambil status mahasiswa (fase aktif: sempro/sidang)
     $status = $mahasiswa->statusMahasiswa;
@@ -250,13 +252,14 @@ class MahasiswaController extends Controller
     ));
 }
 
-public function storeBimbingan(Request $request)
+    public function storeBimbingan(Request $request)
 {
     $request->validate([
         'dosen_id' => 'required|exists:users,id',
         'judul' => 'required|string|max:255',
         'deskripsi' => 'nullable|string',
-        'file' => 'required|mimes:pdf,doc,docx|max:5120', // 5MB
+            // Allow PDF, Word documents and ODF (odt)
+            'file' => 'required|mimes:pdf,doc,docx,odt|max:10240', // 10MB
     ]);
 
     $mahasiswa = Auth::user();

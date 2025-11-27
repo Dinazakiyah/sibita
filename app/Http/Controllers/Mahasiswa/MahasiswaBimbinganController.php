@@ -21,7 +21,8 @@ class MahasiswaBimbinganController extends Controller
         $request->validate([
             'dosen_id'   => 'required|exists:users,id',
             'jenis_file' => 'required|string',
-            'file'       => 'required|file|mimes:pdf,doc,docx',
+            // Allow PDF, Word documents and ODF (odt)
+            'file'       => 'required|file|mimes:pdf,doc,docx,odt|max:10240', // max 10MB
             'deskripsi'  => 'nullable|string',
         ]);
 
