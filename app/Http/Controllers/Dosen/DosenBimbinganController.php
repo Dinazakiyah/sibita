@@ -80,18 +80,16 @@ class DosenBimbinganController extends Controller
 
         $submission = \App\Models\SubmissionFile::findOrFail($submissionId);
 
-        // Check if dosen is allowed to comment on this submission
         $bimbingan = $submission->bimbingan;
         if ($bimbingan->dosen_id !== $dosen->id) {
             return back()->with('error', 'Anda tidak berhak mengomentari file ini.');
         }
 
-        // Create comment
         \App\Models\Comment::create([
             'submission_file_id' => $submission->id,
             'dosen_id' => $dosen->id,
             'comment' => $validated['comment'],
-            'status' => null, // or provide a status if needed
+            'status' => null,
             'is_pinned' => false,
             'priority' => 0,
         ]);
@@ -200,4 +198,47 @@ class DosenBimbinganController extends Controller
 
         return back()->with('success', 'Mahasiswa dinyatakan layak sidang!');
     }
+
+        public function mySchedule()
+    {
+    // Ambil jadwal bimbingan dosen
+    $dosenId = Auth::id();
+
+    $appointments = \App\Models\Appointment::where('dosen_id', $dosenId)->get();
+    return view('dosen.Bimbingan.appointments', compact('appointments'));
+
+    }
+
+    public function approveAppointment($id)
+    {
+    $appointment = \App\Models\Appointment::findOrFail($id);
+
+    // Pastikan hanya dosen yang bersangkutan yang bisa approve
+    if ($appointment->dosen_id !==  Auth::id()) {
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengubah jadwal ini.');
+    }
+
+    $appointment->status = 'approved';
+    $appointment->reason_for_rejection = null;
+    $appointment->save();
+
+    return redirect()->back()->with('success', 'Jadwal berhasil disetujui.');
+    }
+
+    public function rejectAppointment(Request $request, $id)
+    {
+        $appointment = \App\Models\Appointment::findOrFail($id);
+
+        if ($appointment->dosen_id !==  Auth::id()) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin.');
+        }
+
+        $appointment->status = 'rejected';
+        $appointment->reason_for_rejection = $request->reason;
+        $appointment->save();
+
+        return back()->with('success', 'Jadwal berhasil ditolak.');
+    }
+
+
 }

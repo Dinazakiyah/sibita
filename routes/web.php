@@ -185,5 +185,14 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
         ->name('mahasiswa.bimbingan.store');
 });
 
+Route::middleware(['auth', 'role:dosen'])->group(function () {
+    Route::get('/dosen/appointments', [DosenBimbinganController::class, 'index'])
+        ->name('dosen.appointments.index');
+    Route::post('/dosen/appointments/{id}/approve', [DosenBimbinganController::class, 'approveAppointment'])
+        ->name('dosen.appointments.approve');
+    Route::post('/dosen/appointments/{id}/reject', [DosenBimbinganController::class, 'rejectAppointment'])
+        ->name('dosen.appointments.reject');
+});
+
 
 

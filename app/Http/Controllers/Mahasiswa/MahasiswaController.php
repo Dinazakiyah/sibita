@@ -19,33 +19,44 @@ class MahasiswaController extends Controller
      * Show mahasiswa dashboard
      */
     public function dashboard(): View
-    {
-        /** @var User $mahasiswa */
-        $mahasiswa = \Illuminate\Support\Facades\Auth::user();
+{
+    /** @var User $mahasiswa */
+    $mahasiswa = Auth::user();
 
-        $status = $mahasiswa->statusMahasiswa;
+    // FIX: pastikan status mahasiswa selalu ada
+    $status = $mahasiswa->statusMahasiswa()->firstOrCreate(
+        ['mahasiswa_id' => $mahasiswa->id],
+        [
+            'layak_sempro' => false,
+            'layak_sidang' => false,
+            'fase_aktif' => 'sempro',
+        ]
+    );
 
-        $dosenPembimbing = $mahasiswa->dosenPembimbing()->get();
+    // Ambil dosen pembimbing
+    $dosenPembimbing = $mahasiswa->dosenPembimbing()->get();
 
-        $stats = [
-            'total_bimbingan' => $mahasiswa->bimbinganAsMahasiswa()->count(),
-            'pending_submissions' => SubmissionFile::where('mahasiswa_id', $mahasiswa->id)
-                ->where('status', 'submitted')
-                ->count(),
-            'approved_submissions' => SubmissionFile::where('mahasiswa_id', $mahasiswa->id)
-                ->where('status', 'approved')
-                ->count(),
-            'status_mahasiswa' => $status,
-        ];
+    // Statistik
+    $stats = [
+        'total_bimbingan' => $mahasiswa->bimbinganAsMahasiswa()->count(),
+        'pending_submissions' => SubmissionFile::where('mahasiswa_id', $mahasiswa->id)
+            ->where('status', 'submitted')
+            ->count(),
+        'approved_submissions' => SubmissionFile::where('mahasiswa_id', $mahasiswa->id)
+            ->where('status', 'approved')
+            ->count(),
+        'status_mahasiswa' => $status,
+    ];
 
-        $recentBimbingan = $mahasiswa->bimbinganAsMahasiswa()
-            ->with('dosen')
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
+    // Riwayat bimbingan terbaru
+    $recentBimbingan = $mahasiswa->bimbinganAsMahasiswa()
+        ->with('dosen')
+        ->latest('created_at')
+        ->limit(5)
+        ->get();
 
-        return view('Mahasiswa.dashboard', compact('stats', 'recentBimbingan', 'status', 'dosenPembimbing'));
-    }
+    return view('Mahasiswa.dashboard', compact('stats', 'recentBimbingan', 'status', 'dosenPembimbing'));
+}
 
     /**
      * Show list of bimbingan

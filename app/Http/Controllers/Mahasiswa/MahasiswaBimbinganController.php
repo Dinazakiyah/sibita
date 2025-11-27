@@ -132,4 +132,7 @@ class MahasiswaBimbinganController extends Controller
         return redirect()->route('mahasiswa.appointments.my')
             ->with('success', 'Booking jadwal berhasil dibatalkan.');
     }
+
+
+
 }
