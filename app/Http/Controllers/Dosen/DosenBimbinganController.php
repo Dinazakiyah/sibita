@@ -19,6 +19,7 @@ class DosenBimbinganController extends Controller
      */
     public function index()
     {
+        /** @var User $dosen */
         $dosen = Auth::user();
 
         // Ambil mahasiswa yang dibimbing
@@ -34,6 +35,7 @@ class DosenBimbinganController extends Controller
      */
     public function showMahasiswa($id)
     {
+        /** @var User $dosen */
         $dosen = Auth::user();
 
         // Cek apakah dosen membimbing mahasiswa ini
@@ -139,6 +141,7 @@ class DosenBimbinganController extends Controller
      */
     public function approveLayakSempro(Request $request, $mahasiswaId)
     {
+        /** @var User $dosen */
         $dosen = Auth::user();
 
         // Cek apakah dosen membimbing mahasiswa ini
@@ -169,6 +172,7 @@ class DosenBimbinganController extends Controller
      */
     public function approveLayakSidang(Request $request, $mahasiswaId)
     {
+        /** @var User $dosen */
         $dosen = Auth::user();
 
         // Cek apakah dosen membimbing mahasiswa ini
