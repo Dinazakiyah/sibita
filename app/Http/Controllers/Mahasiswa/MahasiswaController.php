@@ -245,7 +245,7 @@ class MahasiswaController extends Controller
     // Ambil dosen pembimbing mahasiswa (pembimbing 1 & 2)
     $dosenPembimbing = $mahasiswa->dosenPembimbing()->get();
 
-    return view('Mahasiswa.Bimbingan.create', compact(
+    return view('Mahasiswa.Bimbingan.mahasiswa upload bimbingan', compact(
         'dosenPembimbing',
         'faseAktif',
         'status'
@@ -280,7 +280,7 @@ class MahasiswaController extends Controller
         'fase' => $mahasiswa->statusMahasiswa->fase_aktif,  // sempro atau sidang
     ]);
 
-    return redirect()->route('mahasiswa.bimbingan')
+    return redirect()->route('Mahasiswa.Bimbingan.mahasiswa upload bimbingan')
         ->with('success', 'Bimbingan baru berhasil dibuat dan diupload!');
 }
 

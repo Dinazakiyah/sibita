@@ -90,7 +90,7 @@ class DosenController extends Controller
             ->with(['dosen', 'submissionFiles.comments'])
             ->paginate(10);
 
-        return view('dosen.mahasiswa.show', compact('mahasiswa', 'bimbingan'));
+        return view('dosen.mahasiswa.dosen lihat detail mahasiswa', compact('mahasiswa', 'bimbingan'));
     }
 
     /**
@@ -105,7 +105,7 @@ class DosenController extends Controller
             ->latest('created_at')
             ->get();
 
-        return view('dosen.bimbingan.show', compact('bimbingan', 'submissions'));
+        return view('dosen.Bimbingan.dosen lihat detail mahasiswa', compact('bimbingan', 'submissions'));
     }
 
     /**

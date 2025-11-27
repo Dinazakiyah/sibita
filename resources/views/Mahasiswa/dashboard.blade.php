@@ -162,6 +162,59 @@
 
 
 
+<!-- Quick Actions & Appointments -->
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-white">
+        <h5 class="mb-0">
+            <i class="bi bi-calendar-event"></i> Jadwal Bimbingan
+        </h5>
+    </div>
+    <div class="card-body">
+        @php
+            $upcomingAppointments = \App\Models\Appointment::where('mahasiswa_id', auth()->id())
+                ->where('status', 'approved')
+                ->where('scheduled_date', '>=', now()->toDateString())
+                ->orderBy('scheduled_date')
+                ->orderBy('scheduled_time')
+                ->take(3)
+                ->get();
+        @endphp
+
+        @if($upcomingAppointments->count() > 0)
+            <div class="row g-3">
+                @foreach($upcomingAppointments as $appointment)
+                    <div class="col-md-4">
+                        <div class="card border-success">
+                            <div class="card-body text-center">
+                                <i class="bi bi-calendar-check text-success" style="font-size: 2rem;"></i>
+                                <h6 class="mt-2 mb-1">{{ $appointment->dosen->name }}</h6>
+                                <p class="small text-muted mb-1">
+                                    {{ $appointment->scheduled_date->format('d M Y') }}
+                                </p>
+                                <p class="small mb-0 fw-bold">{{ $appointment->scheduled_time }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="text-center mt-3">
+                <a href="{{ route('mahasiswa.appointments.my') }}" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-list"></i> Lihat Semua Jadwal
+                </a>
+            </div>
+        @else
+            <div class="text-center py-4">
+                <i class="bi bi-calendar-plus text-muted" style="font-size: 3rem;"></i>
+                <h6 class="mt-3 text-muted">Belum ada jadwal bimbingan</h6>
+                <p class="small text-muted mb-3">Atur jadwal bimbingan dengan dosen pembimbing Anda</p>
+                <a href="{{ route('mahasiswa.appointments.index') }}" class="btn btn-success">
+                    <i class="bi bi-calendar-plus"></i> Booking Jadwal Sekarang
+                </a>
+            </div>
+        @endif
+    </div>
+</div>
+
 <!-- Statistik Bimbingan -->
 
 @php
