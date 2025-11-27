@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="fw-bold">Dokumen Mahasiswa:</label>
+                        <label class="fw-bold">File yang diunggah oleh mahasiswa:</label>
                         <div>
                             @if($bimbingan->submissionFiles && $bimbingan->submissionFiles->count() > 0)
                                 <table class="table table-bordered">
