@@ -144,7 +144,7 @@ class DosenBimbinganController extends Controller
 
         // Cek apakah dosen membimbing mahasiswa ini
         $isBimbingan = $dosen->mahasiswaBimbingan()
-                            ->where('id', $mahasiswaId)
+                            ->where('users.id', $mahasiswaId)
                             ->exists();
 
         if (!$isBimbingan) {
