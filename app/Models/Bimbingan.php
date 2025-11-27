@@ -47,6 +47,14 @@ class Bimbingan extends Model
     }
 
     /**
+     * Relasi: Bimbingan memiliki banyak submission files
+     */
+    public function submissionFiles()
+    {
+        return $this->hasMany(SubmissionFile::class);
+    }
+
+    /**
      * Helper: Mendapatkan badge warna status
      */
     public function getStatusBadge()

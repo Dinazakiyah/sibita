@@ -58,6 +58,11 @@
             <a href="{{ asset('storage/' . $submission->file_path) }}" class="btn btn-outline-secondary" target="_blank">
                 <i class="bi bi-eye"></i> Lihat Preview
             </a>
+            @if(in_array(pathinfo($submission->file_path, PATHINFO_EXTENSION), ['pdf']))
+                <a href="{{ asset('storage/' . $submission->file_path) }}" class="btn btn-outline-info" target="_blank">
+                    <i class="bi bi-file-earmark-pdf"></i> Buka PDF
+                </a>
+            @endif
         </div>
 
         <hr class="my-4">

@@ -23,7 +23,7 @@
             </div>
         @endif
 
-        <form action="{{ route('mahasiswa.uploads.store', isset($bimbingan) ? $bimbingan->id : 0) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('mahasiswa.bimbingan.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Pilih Bimbingan (jika ada multiple bimbingan) -->

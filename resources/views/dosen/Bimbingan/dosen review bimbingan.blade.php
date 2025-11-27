@@ -90,7 +90,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-<form action="{{ route('bimbingan.comment-submission', $submission->id) }}" method="POST">
+<form action="{{ route('dosen.bimbingan.comment-submission', $submission->id) }}" method="POST">
                                                         @csrf
                                                         <div class="input-group">
                                                             <input type="text" name="comment" class="form-control form-control-sm" placeholder="Tambahkan komentar" required>
