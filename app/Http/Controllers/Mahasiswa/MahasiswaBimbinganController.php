@@ -5,10 +5,15 @@ namespace App\Http\Controllers\Mahasiswa;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Bimbingan;
+// use App\Models\Mahasiswa;
+use App\Models\Comment;
+use App\Models\SubmissionFile;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Models\Appointment;
+use App\Models\StatusMahasiswa;
 
 class MahasiswaBimbinganController extends Controller
 {
@@ -117,6 +122,30 @@ class MahasiswaBimbinganController extends Controller
         return view('Mahasiswa.Bimbingan.my-appointments', compact('appointments'));
     }
 
+
+    public function exportHistory()
+    {
+        $mahasiswa = Auth::user();
+
+        $bimbingan = Bimbingan::where('mahasiswa_id', $mahasiswa->id)
+            ->with([
+                'dosen',
+                'latestSubmission',
+                'latestComment.dosen'
+            ])
+            ->orderBy('tanggal_upload', 'asc')
+            ->get();
+
+        $status = StatusMahasiswa::where('mahasiswa_id', $mahasiswa->id)->first();
+
+        return view('Mahasiswa.Bimbingan.riwayat bimbingan', [
+            'mahasiswa' => $mahasiswa,
+            'bimbingan' => $bimbingan,
+            'status' => $status
+        ]);
+    }
+
+
     /**
      * Batalkan booking
      */
@@ -131,6 +160,28 @@ class MahasiswaBimbinganController extends Controller
 
         return redirect()->route('mahasiswa.appointments.my')
             ->with('success', 'Booking jadwal berhasil dibatalkan.');
+    }
+
+    public function submissionFiles()
+    {
+        return $this->hasMany(SubmissionFile::class, 'bimbingan_id');
+    }
+
+    public function latestSubmission()
+    {
+        return $this->hasOne(SubmissionFile::class, 'bimbingan_id')->latestOfMany();
+    }
+
+    public function latestComment()
+    {
+        return $this->hasOneThrough(
+            Comment::class,
+            SubmissionFile::class,
+            'bimbingan_id',
+            'submission_id',
+            'id',
+            'id'
+        )->latest();
     }
 
 

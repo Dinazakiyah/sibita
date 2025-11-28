@@ -229,6 +229,7 @@
                         ->limit(5)
                         ->get();
                 @endphp
+
                 @if($pendingAppointments->count() > 0)
                     @foreach($pendingAppointments as $appointment)
                         <div class="card mb-2 border-start border-warning border-3">
@@ -237,25 +238,41 @@
                                     <div>
                                         <strong>{{ $appointment->mahasiswa->name }}</strong>
                                         <br>
-                                        <small class="text-muted">{{ $appointment->scheduled_date->format('d M Y') }} - {{ $appointment->scheduled_time }}</small>
+                                        <small class="text-muted">
+                                            {{ $appointment->scheduled_date->format('d M Y') }} -
+                                            {{ $appointment->scheduled_time }}
+                                        </small>
                                     </div>
-                                    <div>
-                                        <a href="{{ route('dosen.appointments.approve', $appointment->id) }}" class="btn btn-sm btn-success me-1">
-                                            <i class="bi bi-check"></i>
-                                        </a>
-                                        <a href="{{ route('dosen.appointments.reject', $appointment->id) }}" class="btn btn-sm btn-danger">
-                                            <i class="bi bi-x"></i>
-                                        </a>
+                                    <div class="d-flex">
+
+                                        {{-- FORM APPROVE --}}
+                                        <form action="{{ route('dosen.appointments.approve', $appointment->id) }}" method="POST" class="me-1">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-success">
+                                                <i class="bi bi-check"></i>
+                                            </button>
+                                        </form>
+
+                                        {{-- FORM REJECT --}}
+                                        <form action="{{ route('dosen.appointments.reject', $appointment->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-x"></i>
+                                            </button>
+                                        </form>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
+
                     <div class="text-center mt-2">
                         <a href="{{ route('dosen.schedule.my') }}" class="btn btn-sm btn-outline-primary">
                             Lihat Semua
                         </a>
                     </div>
+
                 @else
                     <div class="text-center py-3">
                         <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>

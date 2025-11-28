@@ -138,8 +138,6 @@ Route::middleware(['auth', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasi
     Route::get('/bimbingan/{bimbingan}/archive/download', [MahasiswaController::class, 'downloadArchive'])->name('archive.download');
 
     // Legacy routes for compatibility
-    Route::get('/bimbingan-compat/create', [MahasiswaBimbinganController::class, 'create'])->name('bimbingan.create');
-    Route::post('/bimbingan-compat', [MahasiswaBimbinganController::class, 'store'])->name('bimbingan.store');
     Route::get('/bimbingan-compat/{id}', [MahasiswaBimbinganController::class, 'show'])->name('bimbingan.compat');
     Route::get('/bimbingan-compat/{id}/download', [MahasiswaBimbinganController::class, 'download'])->name('bimbingan.download');
     Route::get('/riwayat-compat/export', [MahasiswaBimbinganController::class, 'exportHistory'])->name('riwayat.export');

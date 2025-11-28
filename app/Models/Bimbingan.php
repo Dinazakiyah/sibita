@@ -55,6 +55,30 @@ class Bimbingan extends Model
     }
 
     /**
+     * Relasi: Bimbingan hanya memiliki satu submission file terbaru
+     */
+    public function latestSubmission()
+    {
+        return $this->hasOne(SubmissionFile::class)->latest();
+    }
+
+    /**
+     * Relasi: Bimbingan memiliki banyak komentar melalui submission files
+     */
+    public function comments()
+    {
+        return $this->hasManyThrough(Comment::class, SubmissionFile::class, 'bimbingan_id', 'submission_id');
+    }
+
+    /**
+     * Relasi: Bimbingan memiliki satu komentar terbaru melalui submission
+     */
+    public function latestComment()
+    {
+        return $this->hasOneThrough(Comment::class, SubmissionFile::class)->latestOfMany();
+    }
+
+    /**
      * Helper: Mendapatkan badge warna status
      */
     public function getStatusBadge()
