@@ -134,18 +134,16 @@ class DosenBimbinganController extends Controller
                        ->with('success', 'Review berhasil disimpan!');
     }
 
-    /**
-     * Menyetujui mahasiswa layak sempro
-     */
+
     public function approveLayakSempro(Request $request, $mahasiswaId)
     {
         /** @var User $dosen */
         $dosen = Auth::user();
 
-        // Cek apakah dosen membimbing mahasiswa ini
-        $isBimbingan = $dosen->mahasiswaBimbingan()
-                            ->where('users.id', $mahasiswaId)
-                            ->exists();
+       $isBimbingan = $dosen->mahasiswaBimbingan()
+                    ->where('users.id', $mahasiswaId)
+                    ->exists();
+
 
         if (!$isBimbingan) {
             return back()->with('error', 'Anda tidak membimbing mahasiswa ini');
