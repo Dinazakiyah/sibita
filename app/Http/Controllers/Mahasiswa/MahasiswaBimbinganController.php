@@ -108,9 +108,7 @@ class MahasiswaBimbinganController extends Controller
             ->with('success', 'Jadwal bimbingan berhasil dibooking. Menunggu persetujuan dosen.');
     }
 
-    /**
-     * Tampilkan riwayat booking mahasiswa
-     */
+
     public function myAppointments()
     {
         $appointments = Appointment::where('mahasiswa_id', Auth::id())
@@ -146,9 +144,7 @@ class MahasiswaBimbinganController extends Controller
     }
 
 
-    /**
-     * Batalkan booking
-     */
+
     public function cancelAppointment($id)
     {
         $appointment = Appointment::where('id', $id)
@@ -160,28 +156,6 @@ class MahasiswaBimbinganController extends Controller
 
         return redirect()->route('mahasiswa.appointments.my')
             ->with('success', 'Booking jadwal berhasil dibatalkan.');
-    }
-
-    public function submissionFiles()
-    {
-        return $this->hasMany(SubmissionFile::class, 'bimbingan_id');
-    }
-
-    public function latestSubmission()
-    {
-        return $this->hasOne(SubmissionFile::class, 'bimbingan_id')->latestOfMany();
-    }
-
-    public function latestComment()
-    {
-        return $this->hasOneThrough(
-            Comment::class,
-            SubmissionFile::class,
-            'bimbingan_id',
-            'submission_id',
-            'id',
-            'id'
-        )->latest();
     }
 
 

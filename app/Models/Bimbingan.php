@@ -9,7 +9,6 @@ class Bimbingan extends Model
 {
     use HasFactory;
 
-    // Field yang boleh diisi
     protected $fillable = [
         'mahasiswa_id',
         'dosen_id',
@@ -24,63 +23,55 @@ class Bimbingan extends Model
         'tanggal_revisi',
     ];
 
-    // Casting tipe data
     protected $casts = [
         'tanggal_upload' => 'datetime',
         'tanggal_revisi' => 'datetime',
     ];
 
-    /**
-     * Relasi: Bimbingan dimiliki oleh satu mahasiswa
-     */
     public function mahasiswa()
     {
         return $this->belongsTo(User::class, 'mahasiswa_id');
     }
 
-    /**
-     * Relasi: Bimbingan dibimbing oleh satu dosen
-     */
     public function dosen()
     {
         return $this->belongsTo(User::class, 'dosen_id');
     }
 
-    /**
-     * Relasi: Bimbingan memiliki banyak submission files
-     */
     public function submissionFiles()
     {
-        return $this->hasMany(SubmissionFile::class);
+        return $this->hasMany(SubmissionFile::class, 'bimbingan_id');
     }
 
-    /**
-     * Relasi: Bimbingan hanya memiliki satu submission file terbaru
-     */
     public function latestSubmission()
     {
-        return $this->hasOne(SubmissionFile::class)->latest();
+        return $this->hasOne(SubmissionFile::class, 'bimbingan_id')->latestOfMany();
     }
 
-    /**
-     * Relasi: Bimbingan memiliki banyak komentar melalui submission files
-     */
-    public function comments()
+    public function allComments()
     {
-        return $this->hasManyThrough(Comment::class, SubmissionFile::class, 'bimbingan_id', 'submission_id');
+        return $this->hasManyThrough(
+            Comment::class,
+            SubmissionFile::class,
+            'bimbingan_id',
+            'submission_id',
+            'id',
+            'id'
+        );
     }
 
-    /**
-     * Relasi: Bimbingan memiliki satu komentar terbaru melalui submission
-     */
     public function latestComment()
     {
-        return $this->hasOneThrough(Comment::class, SubmissionFile::class)->latestOfMany();
+        return $this->hasManyThrough(
+            Comment::class,
+            SubmissionFile::class,
+            'bimbingan_id',   // FK di submission_files
+            'submission_id',  // FK di comments
+            'id',             // PK bimbingans
+            'id'              // PK submission_files
+        )->latest('comments.id');
     }
 
-    /**
-     * Helper: Mendapatkan badge warna status
-     */
     public function getStatusBadge()
     {
         $badges = [
@@ -92,9 +83,6 @@ class Bimbingan extends Model
         return $badges[$this->status] ?? 'badge bg-secondary';
     }
 
-    /**
-     * Helper: Mendapatkan text status dalam bahasa Indonesia
-     */
     public function getStatusText()
     {
         $texts = [
