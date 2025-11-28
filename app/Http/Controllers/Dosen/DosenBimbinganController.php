@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class DosenBimbinganController extends Controller
 {
-    /**
-     * Menampilkan daftar mahasiswa bimbingan
-     */
+
     public function index()
     {
         /** @var User $dosen */
@@ -149,7 +147,6 @@ class DosenBimbinganController extends Controller
             return back()->with('error', 'Anda tidak membimbing mahasiswa ini');
         }
 
-        // Update status mahasiswa
         $status = StatusMahasiswa::firstOrCreate(
             ['mahasiswa_id' => $mahasiswaId]
         );
@@ -163,9 +160,7 @@ class DosenBimbinganController extends Controller
         return back()->with('success', 'Mahasiswa dinyatakan layak sempro!');
     }
 
-    /**
-     * Menyetujui mahasiswa layak sidang
-     */
+
     public function approveLayakSidang(Request $request, $mahasiswaId)
     {
         /** @var User $dosen */
