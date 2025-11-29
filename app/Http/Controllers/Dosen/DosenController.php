@@ -105,7 +105,7 @@ class DosenController extends Controller
             ->latest('created_at')
             ->get();
 
-        return view('dosen.Bimbingan.dosen lihat detail mahasiswa', compact('bimbingan', 'submissions'));
+        return view('dosen.Bimbingan.show', compact('bimbingan', 'submissions'));
     }
 
     /**
@@ -120,6 +120,8 @@ class DosenController extends Controller
             ->orderBy('is_pinned', 'desc')
             ->latest('created_at')
             ->get();
+
+        $submission->load('mahasiswa');
 
         return view('dosen.submissions.review', compact('submission', 'comments'));
     }
