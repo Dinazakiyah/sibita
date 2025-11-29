@@ -114,17 +114,15 @@ class MahasiswaController extends Controller
             'description' => 'nullable|string|max:1000',
         ]);
 
-        // Store file
+        // Store file directly in public/storage/bimbingan
         try {
-            $filePath = $request->file('file')->store('submissions', 'public');
-            $fileSize = $request->file('file')->getSize();
+            $filename = time() . '_' . $request->file('file')->getClientOriginalName();
+            $file = $request->file('file');
+            $file->move(public_path('storage/bimbingan'), $filename);
+            $filePath = 'bimbingan/' . $filename;
+            $fileSize = $file->getSize();
         } catch (\Exception $e) {
             return back()->withErrors(['file' => 'Gagal menyimpan file. Mohon cek konfigurasi server dan permission folder storage.']);
-        }
-
-        // Verify storage link exists
-        if (!file_exists(public_path('storage'))) {
-            return back()->withErrors(['file' => 'Storage link belum dibuat. Jalankan perintah: php artisan storage:link']);
         }
 
         // Save submission record with dosen_id as null initially
@@ -275,11 +273,11 @@ class MahasiswaController extends Controller
 
     $mahasiswa = Auth::user();
 
-    // Upload file
-    $filePath = $request->file('file')->store(
-        'bimbingan/' . $mahasiswa->id,
-        'public'
-    );
+    // Upload file directly to public/storage/bimbingan
+    $filename = time() . '_' . $request->file('file')->getClientOriginalName();
+    $file = $request->file('file');
+    $file->move(public_path('storage/bimbingan'), $filename);
+    $filePath = 'bimbingan/' . $filename;
 
     // Simpan ke database
     Bimbingan::create([

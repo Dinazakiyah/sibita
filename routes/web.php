@@ -105,7 +105,6 @@ Route::middleware(['auth', 'role:dosen'])->prefix('dosen')->name('dosen.')->grou
     Route::post('/bimbingan/comment-submission/{submissionId}', [DosenBimbinganController::class, 'commentOnSubmission'])->name('dosen.bimbingan.comment-submission');
 
     // Appointment/Scheduling Routes
-    Route::get('/appointments', [DosenBimbinganController::class, 'appointmentsIndex'])->name('appointments.index');
     Route::post('/appointments/{id}/approve', [DosenBimbinganController::class, 'approveAppointment'])->name('appointments.approve');
     Route::post('/appointments/{id}/reject', [DosenBimbinganController::class, 'rejectAppointment'])->name('appointments.reject');
     Route::get('/schedule', [DosenBimbinganController::class, 'mySchedule'])->name('schedule.my');

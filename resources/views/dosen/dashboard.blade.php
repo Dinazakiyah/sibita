@@ -186,7 +186,7 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <h6 class="mb-3">Jadwal Hari Ini</h6>
                 @php
                     $todayAppointments = \App\Models\Appointment::where('dosen_id', auth()->id())
@@ -215,68 +215,6 @@
                     <div class="text-center py-3">
                         <i class="bi bi-calendar-x text-muted" style="font-size: 2rem;"></i>
                         <p class="text-muted mb-0">Tidak ada jadwal hari ini</p>
-                    </div>
-                @endif
-            </div>
-            <div class="col-md-6">
-                <h6 class="mb-3">Permintaan Jadwal</h6>
-                @php
-                    $pendingAppointments = \App\Models\Appointment::where('dosen_id', auth()->id())
-                        ->where('status', 'pending')
-                        ->with('mahasiswa')
-                        ->orderBy('scheduled_date')
-                        ->orderBy('scheduled_time')
-                        ->limit(5)
-                        ->get();
-                @endphp
-
-                @if($pendingAppointments->count() > 0)
-                    @foreach($pendingAppointments as $appointment)
-                        <div class="card mb-2 border-start border-warning border-3">
-                            <div class="card-body p-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <strong>{{ $appointment->mahasiswa->name }}</strong>
-                                        <br>
-                                        <small class="text-muted">
-                                            {{ $appointment->scheduled_date->format('d M Y') }} -
-                                            {{ $appointment->scheduled_time }}
-                                        </small>
-                                    </div>
-                                    <div class="d-flex">
-
-                                        {{-- FORM APPROVE --}}
-                                        <form action="{{ route('dosen.appointments.approve', $appointment->id) }}" method="POST" class="me-1">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-success">
-                                                <i class="bi bi-check"></i>
-                                            </button>
-                                        </form>
-
-                                        {{-- FORM REJECT --}}
-                                        <form action="{{ route('dosen.appointments.reject', $appointment->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                <i class="bi bi-x"></i>
-                                            </button>
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-
-                    <div class="text-center mt-2">
-                        <a href="{{ route('dosen.schedule.my') }}" class="btn btn-sm btn-outline-primary">
-                            Lihat Semua
-                        </a>
-                    </div>
-
-                @else
-                    <div class="text-center py-3">
-                        <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
-                        <p class="text-muted mb-0">Tidak ada permintaan jadwal</p>
                     </div>
                 @endif
             </div>
