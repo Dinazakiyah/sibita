@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class DosenController extends Controller
 {
-    /**
-     * Show dosen dashboard
-     */
+
     public function dashboard(): View
     {
         /** @var User $dosen */
@@ -53,9 +51,7 @@ class DosenController extends Controller
         ));
     }
 
-    /**
-     * Show list of mahasiswa that dosen pembimbing
-     */
+
     public function mahasiswa(): View
     {
     /** @var User $dosen */
@@ -67,9 +63,7 @@ class DosenController extends Controller
         return view('dosen.mahasiswa.index', compact('mahasiswa'));
     }
 
-    /**
-     * Show detail mahasiswa
-     */
+
     public function showMahasiswa(User $mahasiswa): View
     {
         // Check if user is dosen pembimbing of this mahasiswa
@@ -93,9 +87,7 @@ class DosenController extends Controller
         return view('dosen.mahasiswa.dosen lihat detail mahasiswa', compact('mahasiswa', 'bimbingan'));
     }
 
-    /**
-     * Show bimbingan detail
-     */
+
     public function showBimbingan(Bimbingan $bimbingan): View
     {
         $this->authorize('view', $bimbingan);
@@ -108,9 +100,7 @@ class DosenController extends Controller
         return view('dosen.Bimbingan.show', compact('bimbingan', 'submissions'));
     }
 
-    /**
-     * Show submission detail for review
-     */
+
     public function reviewSubmission(SubmissionFile $submission): View
     {
         $this->authorize('review', $submission);
@@ -126,9 +116,7 @@ class DosenController extends Controller
         return view('dosen.submissions.review', compact('submission', 'comments'));
     }
 
-    /**
-     * Add comment to submission
-     */
+
     public function addComment(Request $request, SubmissionFile $submission): RedirectResponse
     {
         $this->authorize('addComment', $submission);
