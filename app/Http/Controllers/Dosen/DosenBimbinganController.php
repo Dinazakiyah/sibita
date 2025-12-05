@@ -192,14 +192,26 @@ class DosenBimbinganController extends Controller
         return back()->with('success', 'Mahasiswa dinyatakan layak sidang!');
     }
 
-        public function mySchedule()
+    public function appointmentRequests()
     {
-    // Ambil jadwal bimbingan dosen
-    $dosenId = Auth::id();
+        // Ambil permintaan jadwal yang pending dari mahasiswa
+        $dosenId = Auth::id();
+        $appointments = \App\Models\Appointment::where('dosen_id', $dosenId)
+            ->where('status', 'pending')
+            ->with('mahasiswa')
+            ->get();
+        return view('dosen.Bimbingan.appointments', compact('appointments'));
+    }
 
-    $appointments = \App\Models\Appointment::where('dosen_id', $dosenId)->get();
-    return view('dosen.Bimbingan.appointments', compact('appointments'));
-
+    public function mySchedule()
+    {
+        // Ambil jadwal yang sudah disetujui
+        $dosenId = Auth::id();
+        $appointments = \App\Models\Appointment::where('dosen_id', $dosenId)
+            ->where('status', 'approved')
+            ->with('mahasiswa')
+            ->get();
+        return view('dosen.Bimbingan.my-schedule', compact('appointments'));
     }
 
     public function approveAppointment($id)

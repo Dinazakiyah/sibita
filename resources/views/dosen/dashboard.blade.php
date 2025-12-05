@@ -270,17 +270,10 @@
                                 @endif
                             </td>
                             <td>
-                                @if($bimbingan->status == 'pending')
-                                    <a href="{{ route('dosen.bimbingan.review', $bimbingan->id) }}"
-                                       class="btn btn-sm btn-unej-primary">
-                                        <i class="bi bi-eye"></i> Review
-                                    </a>
-                                @else
-                                    <a href="{{ route('dosen.mahasiswa.show', $bimbingan->mahasiswa_id) }}"
-                                       class="btn btn-sm btn-outline-secondary">
-                                        <i class="bi bi-eye"></i> Lihat
-                                    </a>
-                                @endif
+                                <a href="{{ route('dosen.bimbingan.review-new', $bimbingan->id) }}"
+                                   class="btn btn-sm {{ $bimbingan->status == 'pending' ? 'btn-unej-primary' : 'btn-outline-secondary' }}">
+                                    <i class="bi bi-eye"></i> {{ $bimbingan->status == 'pending' ? 'Review' : 'Lihat' }}
+                                </a>
                             </td>
                         </tr>
                     @empty
