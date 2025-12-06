@@ -17,7 +17,6 @@ class DosenController extends Controller
 
     public function dashboard(): View
     {
-        /** @var User $dosen */
         $dosen = Auth::user();
 
         $totalMahasiswa = $dosen->mahasiswaBimbingan()->count();
@@ -51,11 +50,9 @@ class DosenController extends Controller
         ));
     }
 
-
     public function mahasiswa(): View
     {
-    /** @var User $dosen */
-    $dosen = Auth::user();
+        $dosen = Auth::user();
         $mahasiswa = $dosen->mahasiswaBimbingan()
             ->with('statusMahasiswa', 'bimbinganAsMahasiswa')
             ->paginate(15);
@@ -63,12 +60,9 @@ class DosenController extends Controller
         return view('dosen.mahasiswa.index', compact('mahasiswa'));
     }
 
-
     public function showMahasiswa(User $mahasiswa): View
     {
-        // Check if user is dosen pembimbing of this mahasiswa
-    /** @var User $current */
-    $current = Auth::user();
+        $current = Auth::user();
 
         if ($current->isDosen()) {
             $isBimbingan = $current->mahasiswaBimbingan()
@@ -87,7 +81,6 @@ class DosenController extends Controller
         return view('dosen.mahasiswa.dosen lihat detail mahasiswa', compact('mahasiswa', 'bimbingan'));
     }
 
-
     public function showBimbingan(Bimbingan $bimbingan): View
     {
         $this->authorize('view', $bimbingan);
@@ -99,7 +92,6 @@ class DosenController extends Controller
 
         return view('dosen.Bimbingan.show', compact('bimbingan', 'submissions'));
     }
-
 
     public function reviewSubmission(SubmissionFile $submission): View
     {
@@ -115,7 +107,6 @@ class DosenController extends Controller
 
         return view('dosen.submissions.review', compact('submission', 'comments'));
     }
-
 
     public function addComment(Request $request, SubmissionFile $submission): RedirectResponse
     {
@@ -137,7 +128,6 @@ class DosenController extends Controller
             'is_pinned' => $validated['is_pinned'] ?? false,
         ]);
 
-        // Update submission status
         $submission->update([
             'status' => $validated['status'],
             'dosen_id' => Auth::id(),
@@ -147,9 +137,6 @@ class DosenController extends Controller
         return back()->with('success', 'Komentar berhasil ditambahkan');
     }
 
-    /**
-     * Approve submission
-     */
     public function approveSubmission(SubmissionFile $submission): RedirectResponse
     {
         $this->authorize('approve', $submission);
@@ -160,7 +147,6 @@ class DosenController extends Controller
             'approved_at' => now(),
         ]);
 
-        // Update bimbingan status if all submissions approved
         $allApproved = $submission->bimbingan->submissionFiles()
             ->where('status', '!=', 'approved')
             ->doesntExist();
@@ -172,9 +158,6 @@ class DosenController extends Controller
         return back()->with('success', 'Submission berhasil disetujui');
     }
 
-    /**
-     * Reject submission
-     */
     public function rejectSubmission(Request $request, SubmissionFile $submission): RedirectResponse
     {
         $this->authorize('reject', $submission);
@@ -193,9 +176,6 @@ class DosenController extends Controller
         return back()->with('success', 'Submission berhasil ditolak');
     }
 
-    /**
-     * Update bimbingan status
-     */
     public function updateBimbinganStatus(Request $request, Bimbingan $bimbingan): RedirectResponse
     {
         $this->authorize('update', $bimbingan);
@@ -209,13 +189,9 @@ class DosenController extends Controller
         return back()->with('success', 'Status bimbingan berhasil diperbarui');
     }
 
-    /**
-     * Get bimbingan history
-     */
     public function history(): View
     {
-    /** @var User $dosen */
-    $dosen = Auth::user();
+        $dosen = Auth::user();
 
         $bimbingan = $dosen->bimbinganAsDosen()
             ->with(['mahasiswa', 'submissionFiles'])

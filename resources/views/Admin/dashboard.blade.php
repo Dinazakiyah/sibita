@@ -60,30 +60,6 @@
     </div>
 </div>
 
-<!-- Quick Actions -->
-<div class="row mb-4">
-    <div class="col-md-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title mb-3">
-                    <i class="bi bi-lightning-fill"></i> Quick Actions
-                </h5>
-                <div class="d-flex gap-2 flex-wrap">
-                    <a href="{{ route('admin.mahasiswa.create') }}" class="btn btn-unej-primary">
-                        <i class="bi bi-person-plus-fill"></i> Tambah Mahasiswa
-                    </a>
-                    <a href="{{ route('admin.dosen.create') }}" class="btn btn-unej-warning">
-                        <i class="bi bi-person-plus-fill"></i> Tambah Dosen
-                    </a>
-                    <a href="{{ route('admin.laporan') }}" class="btn btn-unej-success">
-                        <i class="bi bi-file-earmark-bar-graph"></i> Lihat Laporan
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Progress Overview -->
 <div class="row mb-4">
     <div class="col-md-12">

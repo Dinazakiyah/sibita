@@ -9,18 +9,13 @@ use App\Models\StatusMahasiswa;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Controller untuk Dosen mengelola bimbingan
- */
 class DosenBimbinganController extends Controller
 {
 
     public function index()
     {
-        /** @var User $dosen */
         $dosen = Auth::user();
 
-        // Ambil mahasiswa yang dibimbing
         $mahasiswa = $dosen->mahasiswaBimbingan()
                           ->with('statusMahasiswa')
                           ->get();
@@ -28,21 +23,15 @@ class DosenBimbinganController extends Controller
         return view('dosen.mahasiswa.index', compact('mahasiswa'));
     }
 
-    /**
-     * Menampilkan detail mahasiswa dan riwayat bimbingan
-     */
     public function showMahasiswa($id)
     {
-        /** @var User $dosen */
         $dosen = Auth::user();
 
-        // Cek apakah dosen membimbing mahasiswa ini
         $mahasiswa = $dosen->mahasiswaBimbingan()
                           ->where('id', $id)
                           ->with('statusMahasiswa')
                           ->firstOrFail();
 
-        // Ambil riwayat bimbingan
         $bimbingan = Bimbingan::where('mahasiswa_id', $id)
                              ->where('dosen_id', $dosen->id)
                              ->latest()
@@ -51,9 +40,6 @@ class DosenBimbinganController extends Controller
         return view('dosen.mahasiswa.dosen lihat detail mahasiswa', compact('mahasiswa', 'bimbingan'));
     }
 
-    /**
-     * Menampilkan detail bimbingan untuk review
-     */
     public function reviewBimbingan($id)
     {
         $dosen = Auth::user();
@@ -65,9 +51,6 @@ class DosenBimbinganController extends Controller
         return view('dosen.Bimbingan.dosen review bimbingan', compact('bimbingan'));
     }
 
-    /**
-     * Store comment on a submission file by dosen
-     */
     public function commentOnSubmission(Request $request, $submissionId)
     {
         $validated = $request->validate([
@@ -95,9 +78,6 @@ class DosenBimbinganController extends Controller
         return back()->with('success', 'Komentar berhasil ditambahkan.');
     }
 
-    /**
-     * Menyimpan review bimbingan
-     */
     public function submitReview(Request $request, $id)
     {
         $validated = $request->validate([
@@ -111,7 +91,6 @@ class DosenBimbinganController extends Controller
         $bimbingan = Bimbingan::where('dosen_id', $dosen->id)
                              ->findOrFail($id);
 
-        // Update bimbingan
         $bimbingan->update([
             'komentar_dosen' => $validated['komentar'],
             'percentage' => $validated['percentage'],
@@ -119,7 +98,6 @@ class DosenBimbinganController extends Controller
             'tanggal_revisi' => now(),
         ]);
 
-        // Update all related submission files' status accordingly
         $submissionStatus = $validated['status'] === 'approved' ? 'approved' : 'revision_needed';
 
         $bimbingan->submissionFiles()->update([
@@ -132,16 +110,13 @@ class DosenBimbinganController extends Controller
                        ->with('success', 'Review berhasil disimpan!');
     }
 
-
     public function approveLayakSempro(Request $request, $mahasiswaId)
     {
-        /** @var User $dosen */
         $dosen = Auth::user();
 
        $isBimbingan = $dosen->mahasiswaBimbingan()
                     ->where('users.id', $mahasiswaId)
                     ->exists();
-
 
         if (!$isBimbingan) {
             return back()->with('error', 'Anda tidak membimbing mahasiswa ini');
@@ -160,13 +135,10 @@ class DosenBimbinganController extends Controller
         return back()->with('success', 'Mahasiswa dinyatakan layak sempro!');
     }
 
-
     public function approveLayakSidang(Request $request, $mahasiswaId)
     {
-        /** @var User $dosen */
         $dosen = Auth::user();
 
-        // Cek apakah dosen membimbing mahasiswa ini
         $isBimbingan = $dosen->mahasiswaBimbingan()
                             ->where('users.id', $mahasiswaId)
                             ->exists();
@@ -175,14 +147,12 @@ class DosenBimbinganController extends Controller
             return back()->with('error', 'Anda tidak membimbing mahasiswa ini');
         }
 
-        // Cek apakah sudah layak sempro
         $status = StatusMahasiswa::where('mahasiswa_id', $mahasiswaId)->first();
 
         if (!$status || !$status->layak_sempro) {
             return back()->with('error', 'Mahasiswa harus layak sempro terlebih dahulu');
         }
 
-        // Update status
         $status->update([
             'layak_sidang' => true,
             'tanggal_layak_sidang' => now(),
@@ -194,7 +164,6 @@ class DosenBimbinganController extends Controller
 
     public function appointmentRequests()
     {
-        // Ambil permintaan jadwal yang pending dari mahasiswa
         $dosenId = Auth::id();
         $appointments = \App\Models\Appointment::where('dosen_id', $dosenId)
             ->where('status', 'pending')
@@ -205,7 +174,6 @@ class DosenBimbinganController extends Controller
 
     public function mySchedule()
     {
-        // Ambil jadwal yang sudah disetujui
         $dosenId = Auth::id();
         $appointments = \App\Models\Appointment::where('dosen_id', $dosenId)
             ->where('status', 'approved')
@@ -218,7 +186,6 @@ class DosenBimbinganController extends Controller
     {
     $appointment = \App\Models\Appointment::findOrFail($id);
 
-    // Pastikan hanya dosen yang bersangkutan yang bisa approve
     if ($appointment->dosen_id !==  Auth::id()) {
         return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengubah jadwal ini.');
     }
@@ -244,6 +211,5 @@ class DosenBimbinganController extends Controller
 
         return back()->with('success', 'Jadwal berhasil ditolak.');
     }
-
 
 }

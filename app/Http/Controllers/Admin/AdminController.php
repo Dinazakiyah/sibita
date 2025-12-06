@@ -16,9 +16,6 @@ use Illuminate\View\View;
 
 class AdminController extends Controller
 {
-    /**
-     * Show admin dashboard
-     */
     public function dashboard(): View
     {
         $stats = [
@@ -36,9 +33,6 @@ class AdminController extends Controller
         return view('Admin.dashboard', compact('stats', 'recentBimbingan'));
     }
 
-    /**
-     * Menampilkan daftar mahasiswa
-     */
     public function indexMahasiswa()
     {
         $mahasiswa = User::where('role', 'mahasiswa')
@@ -49,18 +43,12 @@ class AdminController extends Controller
         return view('Admin.Mahasiswa.index', compact('mahasiswa'));
     }
 
-    /**
-     * Menampilkan form tambah mahasiswa
-     */
     public function createMahasiswa()
     {
         $dosen = User::where('role', 'dosen')->get();
         return view('Admin.Mahasiswa.create', compact('dosen'));
     }
 
-    /**
-     * Menyimpan mahasiswa baru
-     */
     public function storeMahasiswa(Request $request)
     {
         $validated = $request->validate([
@@ -75,7 +63,6 @@ class AdminController extends Controller
 
         DB::beginTransaction();
         try {
-            // Buat user mahasiswa
             $mahasiswa = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
@@ -85,13 +72,11 @@ class AdminController extends Controller
                 'role' => 'mahasiswa',
             ]);
 
-            // Assign dosen pembimbing
             $mahasiswa->dosenPembimbing()->attach([
                 $validated['dosen_pembimbing_1'] => ['jenis_pembimbing' => 'pembimbing_1'],
                 $validated['dosen_pembimbing_2'] => ['jenis_pembimbing' => 'pembimbing_2'],
             ]);
 
-            // Buat status mahasiswa
             StatusMahasiswa::create([
                 'mahasiswa_id' => $mahasiswa->id,
                 'layak_sempro' => false,
@@ -109,9 +94,6 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Menampilkan daftar dosen
-     */
     public function indexDosen()
     {
         $dosen = User::where('role', 'dosen')
@@ -122,17 +104,11 @@ class AdminController extends Controller
         return view('Admin.dosen.index', compact('dosen'));
     }
 
-    /**
-     * Menampilkan form tambah dosen
-     */
     public function createDosen()
     {
         return view('Admin.dosen.create');
     }
 
-    /**
-     * Menyimpan dosen baru
-     */
     public function storeDosen(Request $request)
     {
         $validated = $request->validate([
@@ -165,9 +141,6 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Menampilkan laporan aktivitas
-     */
     public function laporan()
     {
         $totalMahasiswa = User::where('role', 'mahasiswa')->count();
@@ -175,7 +148,6 @@ class AdminController extends Controller
         $layakSempro = StatusMahasiswa::where('layak_sempro', true)->count();
         $layakSidang = StatusMahasiswa::where('layak_sidang', true)->count();
 
-        // Ambil data per dosen
         $dosenStats = User::where('role', 'dosen')
                          ->withCount([
                              'mahasiswaBimbingan',
@@ -192,26 +164,17 @@ class AdminController extends Controller
         ));
     }
 
-    /**
-     * Show schedule periods (ini itu fungsinya apa?)
-     */
     public function periods(): View
     {
         $periods = SchedulePeriod::orderBy('start_date', 'desc')->paginate(15);
         return view('Admin.periods.index', compact('periods'));
     }
 
-    /**
-     * Show create period form
-     */
     public function createPeriod()
     {
         return view('Admin.periods.create');
     }
 
-    /**
-     * Store new period
-     */
     public function storePeriod()
     {
         $validated = request()->validate([
@@ -238,9 +201,6 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Show reports
-     */
     public function reports(): View
     {
         $period = SchedulePeriod::where('is_active', true)->first();

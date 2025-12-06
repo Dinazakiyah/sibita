@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Auth;
 
 class MahasiswaController extends Controller
 {
-    /**
-     * Show mahasiswa dashboard
-     */
     public function dashboard(): View
 {
-    /** @var User $mahasiswa */
     $mahasiswa = Auth::user();
 
-    // FIX: pastikan status mahasiswa selalu ada
     $status = $mahasiswa->statusMahasiswa()->firstOrCreate(
         ['mahasiswa_id' => $mahasiswa->id],
         [
@@ -33,10 +28,8 @@ class MahasiswaController extends Controller
         ]
     );
 
-    // Ambil dosen pembimbing
     $dosenPembimbing = $mahasiswa->dosenPembimbing()->get();
 
-    // Statistik
     $stats = [
         'total_bimbingan' => $mahasiswa->bimbinganAsMahasiswa()->count(),
         'pending_submissions' => SubmissionFile::where('mahasiswa_id', $mahasiswa->id)
@@ -48,7 +41,6 @@ class MahasiswaController extends Controller
         'status_mahasiswa' => $status,
     ];
 
-    // Riwayat bimbingan terbaru
     $recentBimbingan = $mahasiswa->bimbinganAsMahasiswa()
         ->with('dosen')
         ->latest('created_at')
@@ -58,12 +50,8 @@ class MahasiswaController extends Controller
     return view('Mahasiswa.dashboard', compact('stats', 'recentBimbingan', 'status', 'dosenPembimbing'));
 }
 
-    /**
-     * Show list of bimbingan
-     */
     public function bimbingan(): View
     {
-        /** @var User $mahasiswa */
         $mahasiswa = \Illuminate\Support\Facades\Auth::user();
 
         $bimbingan = $mahasiswa->bimbinganAsMahasiswa()
@@ -74,9 +62,6 @@ class MahasiswaController extends Controller
         return view('Mahasiswa.Bimbingan.index', compact('bimbingan'));
     }
 
-    /**
-     * Show detail bimbingan with submissions and comments
-     */
     public function showBimbingan(Bimbingan $bimbingan): View
     {
         $this->authorize('view', $bimbingan);
@@ -90,9 +75,6 @@ class MahasiswaController extends Controller
         return view('Mahasiswa.Bimbingan.show', compact('bimbingan', 'submissions'));
     }
 
-    /**
-     * Show upload file form
-     */
     public function uploadForm(Bimbingan $bimbingan): View
     {
         $this->authorize('view', $bimbingan);
@@ -100,21 +82,16 @@ class MahasiswaController extends Controller
         return view('Mahasiswa.uploads.create', compact('bimbingan'));
     }
 
-    /**
-     * Store uploaded file
-     */
     public function storeUpload(Request $request, Bimbingan $bimbingan): RedirectResponse
     {
         $this->authorize('view', $bimbingan);
 
         $validated = $request->validate([
-            // Allow PDF, Word documents and ODF (odt)
-            'file' => 'required|file|mimes:pdf,doc,docx,odt|max:10240', // Max 10MB
+            'file' => 'required|file|mimes:pdf,doc,docx,odt|max:10240',
             'file_type' => 'required|in:draft,revision,final',
             'description' => 'nullable|string|max:1000',
         ]);
 
-        // Store file directly in public/storage/bimbingan
         try {
             $filename = time() . '_' . $request->file('file')->getClientOriginalName();
             $file = $request->file('file');
@@ -125,7 +102,6 @@ class MahasiswaController extends Controller
             return back()->withErrors(['file' => 'Gagal menyimpan file. Mohon cek konfigurasi server dan permission folder storage.']);
         }
 
-        // Save submission record with dosen_id as null initially
         $submission = SubmissionFile::create([
             'bimbingan_id' => $bimbingan->id,
             'mahasiswa_id' => \Illuminate\Support\Facades\Auth::id(),
@@ -143,9 +119,6 @@ class MahasiswaController extends Controller
             ->with('success', 'File berhasil diupload. Menunggu review dari dosen.');
     }
 
-    /**
-     * Show submission detail with comments
-     */
     public function showSubmission(SubmissionFile $submission): View
     {
         $this->authorize('view', $submission);
@@ -159,19 +132,14 @@ class MahasiswaController extends Controller
         return view('Mahasiswa.submissions.show', compact('submission', 'comments'));
     }
 
-    /**
-     * Show progress tracker
-     */
     public function progress(): View
     {
-        /** @var User $mahasiswa */
         $mahasiswa = Auth::user();
 
         $bimbingan = $mahasiswa->bimbinganAsMahasiswa()
             ->with(['submissionFiles', 'dosen'])
             ->get();
 
-        // Calculate progress
         $progressData = $bimbingan->map(function ($b) {
             $totalSubmissions = $b->submissionFiles()->count();
             $approvedSubmissions = $b->submissionFiles()->where('status', 'approved')->count();
@@ -187,14 +155,10 @@ class MahasiswaController extends Controller
         return view('Mahasiswa.progress', compact('progressData'));
     }
 
-    /**
-     * Download archive of bimbingan history
-     */
     public function downloadArchive(Bimbingan $bimbingan)
     {
         $this->authorize('view', $bimbingan);
 
-        // Get all submissions for this bimbingan
         $submissions = $bimbingan->submissionFiles()
             ->where('mahasiswa_id', Auth::id())
             ->get();
@@ -203,7 +167,6 @@ class MahasiswaController extends Controller
             return back()->with('error', 'Tidak ada file untuk didownload');
         }
 
-        // Create zip file with all submissions
         $zip = new \ZipArchive();
         $zipFileName = "bimbingan_{$bimbingan->id}_" . now()->format('Y-m-d-His') . ".zip";
         $zipFilePath = storage_path("app/temp/{$zipFileName}");
@@ -220,7 +183,6 @@ class MahasiswaController extends Controller
                 }
             }
 
-            // Add metadata file
             $metadata = "Bimbingan: {$bimbingan->judul}\n";
             $metadata .= "Dosen: {$bimbingan->dosen->name}\n";
             $metadata .= "Status: {$bimbingan->status}\n";
@@ -244,14 +206,11 @@ class MahasiswaController extends Controller
 
     public function createBimbingan()
 {
-        /** @var User $mahasiswa */
         $mahasiswa = Auth::user();
 
-    // Ambil status mahasiswa (fase aktif: sempro/sidang)
     $status = $mahasiswa->statusMahasiswa;
     $faseAktif = $status->fase_aktif;
 
-    // Ambil dosen pembimbing mahasiswa (pembimbing 1 & 2)
     $dosenPembimbing = $mahasiswa->dosenPembimbing()->get();
 
     return view('Mahasiswa.Bimbingan.mahasiswa upload bimbingan', compact(
@@ -262,37 +221,33 @@ class MahasiswaController extends Controller
 }
 
     public function storeBimbingan(Request $request)
-{
-    $request->validate([
-        'dosen_id' => 'required|exists:users,id',
-        'judul' => 'required|string|max:255',
-        'deskripsi' => 'nullable|string',
-            // Allow PDF, Word documents and ODF (odt)
-            'file' => 'required|mimes:pdf,doc,docx,odt|max:10240', // 10MB
-    ]);
+    {
+        $request->validate([
+            'dosen_id' => 'required|exists:users,id',
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'file' => 'required|mimes:pdf,doc,docx,odt|max:10240',
+        ]);
 
-    $mahasiswa = Auth::user();
+        $mahasiswa = Auth::user();
 
-    // Upload file directly to public/storage/bimbingan
-    $filename = time() . '_' . $request->file('file')->getClientOriginalName();
-    $file = $request->file('file');
-    $file->move(public_path('storage/bimbingan'), $filename);
-    $filePath = 'bimbingan/' . $filename;
+        $filename = time() . '_' . $request->file('file')->getClientOriginalName();
+        $file = $request->file('file');
+        $file->move(public_path('storage/bimbingan'), $filename);
+        $filePath = 'bimbingan/' . $filename;
 
-    // Simpan ke database
-    Bimbingan::create([
-        'mahasiswa_id' => $mahasiswa->id,
-        'dosen_id' => $request->dosen_id,
-        'judul' => $request->judul,
-        'deskripsi' => $request->deskripsi,
-        'file_path' => $filePath,
-        // Ensure fase is one of allowed enum values; map user-friendly status if needed
-        'fase' => in_array($mahasiswa->statusMahasiswa->fase_aktif, ['sempro','sidang']) ? $mahasiswa->statusMahasiswa->fase_aktif : 'sempro',  // sempro or sidang
-    ]);
+        Bimbingan::create([
+            'mahasiswa_id' => $mahasiswa->id,
+            'dosen_id' => $request->dosen_id,
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'file_path' => $filePath,
+            'fase' => in_array($mahasiswa->statusMahasiswa->fase_aktif, ['sempro','sidang']) ? $mahasiswa->statusMahasiswa->fase_aktif : 'sempro',
+        ]);
 
-    return redirect()->route('Mahasiswa.Bimbingan.mahasiswa upload bimbingan')
-        ->with('success', 'Bimbingan baru berhasil dibuat dan diupload!');
-}
+        return redirect()->route('Mahasiswa.Bimbingan.mahasiswa upload bimbingan')
+            ->with('success', 'Bimbingan baru berhasil dibuat dan diupload!');
+    }
 
 
 }
